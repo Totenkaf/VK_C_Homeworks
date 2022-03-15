@@ -1,4 +1,5 @@
 // Copyright 2022 by Artem Ustsov
+#include "person.h"
 
 typedef struct Book {
     bool is_tooked;
@@ -13,4 +14,3 @@ typedef struct Book {
 
 
 void print_book(const Book* book, size_t num);
-bool take_the_book(BookCatalog** book_catalog_p, FILE* file);

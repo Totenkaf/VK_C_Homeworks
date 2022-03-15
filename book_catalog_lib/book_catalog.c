@@ -1,5 +1,5 @@
 // Copyright 2022 by Artem Ustsov
-#include "book.h"
+#include "book_catalog.h"
 
 int create_catalog(BookCatalog** book_catalog_p, FILE* file) {
     if (!book_catalog_p) {
@@ -44,15 +44,27 @@ int create_catalog(BookCatalog** book_catalog_p, FILE* file) {
             book_catalog->books[i].persons = NULL;
 
             string = input_string(file);
+            if (!string) {
+              error = true;
+            }
             book_catalog->books[i].ISBN_code = string;
             
             string = input_string(file);
+            if (!string) {
+              error = true;
+            }
             book_catalog->books[i].name = string;   
 
             integer = input_int(file);
+            if (!integer) {
+              error = true;
+            }
             book_catalog->books[i].publication_year = (size_t)integer;
             
             integer = input_int(file);
+            if (!integer) {
+              error = true;
+            }
             book_catalog->books[i].num_of_stored = (size_t)integer;
         }
         if(!feof(file)) {
@@ -61,7 +73,7 @@ int create_catalog(BookCatalog** book_catalog_p, FILE* file) {
         }
     }
     free(string);
-    if (error) {
+    if (error && !feof(file)) {
         return false;
     }
     return true;
@@ -118,4 +130,67 @@ void get_info_of_taken_books(const BookCatalog *book_catalog) {
             printf(":\t %ld copies\n", book_catalog->books[i].num_of_taken);
         }
     }
+}
+
+bool take_the_book(BookCatalog** book_catalog_p, FILE* file) {
+    if (!book_catalog_p) {
+        return false;
+    }
+
+    BookCatalog *book_catalog = *book_catalog_p;
+    if (!book_catalog) {
+        return false;
+    }
+
+    bool error = false;
+    size_t book_num = 0;
+    char* string = NULL;
+    size_t integer = 0;
+    while(!feof(file) && !error) {
+        book_num = (size_t)input_int(file) - 1;
+        if(book_num > book_catalog->size - 1) {
+            error = true;
+        }
+          size_t num_of_persons = input_int(file);
+          if (!num_of_persons) {
+            error = true;
+          }
+          book_catalog->books[book_num].num_of_persons_tooked = (size_t)num_of_persons;
+          book_catalog->books[book_num].is_tooked = true;
+          PersonTookedBook*  persons_p = (PersonTookedBook *)malloc(num_of_persons * sizeof(PersonTookedBook));
+          if(!persons_p) {
+              error = true;
+          }
+          if (!error) {
+              book_catalog->books[book_num].persons = persons_p;
+              for (size_t i = 0; i < num_of_persons; ++i) {
+                  string = input_string(file);
+                  if (!string) {
+                    error = true;
+                  }
+                  book_catalog->books[book_num].persons[i].surname = string;
+
+                  string = input_string(file);
+                  if (!string) {
+                    error = true;
+                  }
+                  book_catalog->books[book_num].persons[i].date_taken = string;
+                  
+                  integer = (size_t)input_int(file);
+                  if (!integer || integer > book_catalog->books[book_num].num_of_stored) {
+                      error = true;
+                  }
+                  book_catalog->books[book_num].persons[i].num_of_taken = integer;
+                  book_catalog->books[book_num].num_of_taken += book_catalog->books[book_num].persons[i].num_of_taken;
+              }
+              
+          }
+    }
+    if(error && !feof(file)) {
+        return false;
+    }
+    if (error) {
+      return false;
+    }
+    return true;
 }

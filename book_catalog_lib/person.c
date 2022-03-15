@@ -1,6 +1,6 @@
 // Copyright 2022 by Artem Ustsov
-#include "utils.c"
-
+#include "person.h"
+#include "utils.h"
 
 void print_person(const PersonTookedBook* person, size_t num_of_persons) {
     printf("Persons: \n");

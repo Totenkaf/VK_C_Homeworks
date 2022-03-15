@@ -7,107 +7,37 @@ cmake_minimum_required(VERSION 3.8)
 set(project_name book_catalog)
 project(${project_name})
 
-project(tests_gtest CXX)
-
-find_package(Git REQUIRED)
-find_package(GTest REQUIRED)
 
 set(CMAKE_C_STANDARD 99)
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -ldl -pthread -Wall -Wextra -Wpedantic -Werror")
-set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -ldl -pthread -Wall -Wextra -Wpedantic -Werror")
 
 # ==============================================================================
 # II | Preinstall settings
 # ==============================================================================
 
 # ------------------------------------------------------------------------------
-# 1 | Includes
+# 1 | Include subdirectories
 # ------------------------------------------------------------------------------
-# Main project
-set(includes ${PROJECT_SOURCE_DIR}/include)
+
+add_subdirectory(book_catalog_lib)
+
+
+message("BOOK_CATALOG_LIB_INCLUDE_DIRS = ${BOOK_CATALOG_LIB_INCLUDE_DIRS}")
+message("BOOK_CATALOG_LIB_LIBRARIES = ${BOOK_CATALOG_LIB_LIBRARIES}")
+
+
 include(ExternalProject)
-include_directories(${includes})
-# Gtest includes
-include_directories(${GTEST_INCLUDE_DIRS})
-
-# Main stress test
-set(includes_time_test ${PROJECT_SOURCE_DIR}/stress_test/include)
 
 # ------------------------------------------------------------------------------
-# 2 | Sources_MAIN
-# ------------------------------------------------------------------------------
-# Main project source
-set(sources ${PROJECT_SOURCE_DIR}/src)
-
-# Main function source
-set(src_main ${sources}/main.c)
-# Subsudiary sources
-set(src_files_lib ${sources}/matrix.c)
-set(src_files_utils ${sources}/utils.c)
-# Main static source
-set(src_files_static ${sources}/matrix_cons.c)
-# Main dynaic source
-set(src_files_dynamic ${sources}/matrix_parallel.c)
-# Main creator source
-set(src_files_random_matrix_creation ${sources}/matrix_creator.c)
-
-
-# ------------------------------------------------------------------------------
-# 3 | Sources_STRESS TEST
-# ------------------------------------------------------------------------------
-# Main stress_test source
-set(sources_time_tests ${PROJECT_SOURCE_DIR}/stress_test/src)
-
-# Main function stress_test source
-set(src_main_stress_test ${sources_time_tests}/main.c)
-set(src_files_test_common ${sources_time_tests}/stress_test.c)
-
-
-# ------------------------------------------------------------------------------
-# 4 | Libraries
-# ------------------------------------------------------------------------------
-# Main static
-add_library(${project_name}_static STATIC ${src_files_lib} ${src_files_static} ${src_files_utils})
-# Main dynamic
-add_library(${project_name}_dynamic SHARED ${src_files_lib} ${src_files_dynamic} ${src_files_utils})
-
-
-# ------------------------------------------------------------------------------
-# 5 | Executables_MAIN
-# ------------------------------------------------------------------------------
-# Creation availability
-add_executable(run_creation ${src_files_utils} ${src_files_random_matrix_creation})
-target_include_directories(run_creation PUBLIC ${PROJECT_SOURCE_DIR}/include)
-
-# Consecutive case availability
-add_executable(run_consecutive ${src_main})
-target_link_libraries(run_consecutive ${project_name}_static)
-target_include_directories(run_consecutive PUBLIC ${PROJECT_SOURCE_DIR}/include)
-
-# Parallel case availability
-add_executable(run_parallel ${src_main})
-target_link_libraries(run_parallel ${project_name}_dynamic)
-target_include_directories(run_parallel PUBLIC ${PROJECT_SOURCE_DIR}/include)
-
-
-# ------------------------------------------------------------------------------
-# 6 | Executables_STRESS TEST
+# 2 | Executable Main
 # ------------------------------------------------------------------------------
 
-if(ENABLE_STRESS_TEST)
-# Consecutive stress test case availability
-  add_executable(run_consecutive_st ${src_main_stress_test} ${src_files_test_common})
-  target_link_libraries(run_consecutive_st ${project_name}_static)
-  target_include_directories(run_consecutive_st PUBLIC ${PROJECT_SOURCE_DIR}/stress_test/include)
+add_executable(${PROJECT_NAME} main.c)
 
-  # Parallel stress test case availability
-  add_executable(run_parallel_st ${src_main_stress_test} ${src_files_test_common})
-  target_link_libraries(run_parallel_st ${project_name}_dynamic)
-  target_include_directories(run_parallel_st PUBLIC ${PROJECT_SOURCE_DIR}/stress_test/include)
-endif()
+target_include_directories(${PROJECT_NAME} PUBLIC ${BOOK_CATALOG_LIB_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${BOOK_CATALOG_LIB_LIBRARIES})
+
 
 # ==============================================================================
 # III | Check settings
@@ -146,12 +76,10 @@ endif()
 # ------------------------------------------------------------------------------
 if(ENABLE_CLANG_FORMAT)
   file(GLOB_RECURSE ALL_CXX_SOURCE_FILES
-         ${PROJECT_SOURCE_DIR}/src/*.c
-         ${PROJECT_SOURCE_DIR}/incude/*.h
-         ${PROJECT_SOURCE_DIR}/stress_test/include/*.h
-         ${PROJECT_SOURCE_DIR}/stress_test/src/*.c
-         ${PROJECT_SOURCE_DIR}/unit_tests/*.cpp)
-
+         ${PROJECT_SOURCE_DIR}/book_catalog_lib/
+         ${PROJECT_SOURCE_DIR}/book_catalog_lib/*.h
+         ${PROJECT_SOURCE_DIR}/*.c
+  )
   add_custom_target(
     clang-format
     COMMAND /usr/bin/clang-format
@@ -180,16 +108,16 @@ endif()
 # ------------------------------------------------------------------------------
 if(ENABLE_CPPLINT)
   file(GLOB_RECURSE ALL_CXX_SOURCE_FILES
-         ${PROJECT_SOURCE_DIR}/src/*.c
-         ${PROJECT_SOURCE_DIR}/stress_test/src/*.c
-         ${PROJECT_SOURCE_DIR}/unit_tests/*.cpp)
+         ${PROJECT_SOURCE_DIR}/book_catalog_lib/*.c
+         ${PROJECT_SOURCE_DIR}/*.c
+  )
 
   add_custom_target(
       cpplint
       COMMAND /usr/local/bin/cpplint 
       --extensions=c,cpp,h,hpp
       --linelength=80
-      --filter=-runtime/casting,-readability/casting,-build/include_subdir,-build/include_order,-whitespace/indent
+      --filter=-runtime/casting,-readability/casting,-build/include_subdir,-build/include_order,-whitespace/indent,-build/include_what_you_use,-runtime/printf
       ${ALL_CXX_SOURCE_FILES}
   )
 endif()
@@ -236,12 +164,10 @@ if(ENABLE_CPPCHECK)
         --language=c
         --check-config
         -DMAIN = main
-        -I ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/include/*.h
-        ${CMAKE_SOURCE_DIR}/src/*.c
-        ${CMAKE_SOURCE_DIR}/unit_test/*.cpp
-        ${CMAKE_SOURCE_DIR}/stress_test/src/*.c
-        ${CMAKE_SOURCE_DIR}/stress_test/include/*.h
+        -I ${CMAKE_SOURCE_DIR}/book_catalog_lib
+        ${CMAKE_SOURCE_DIR}/book_catalog_lib/*.h
+        ${CMAKE_SOURCE_DIR}/book_catalog_lib/*.c
+        ${CMAKE_SOURCE_DIR}/*.c
     )
 
     add_custom_target(
@@ -283,31 +209,6 @@ option(BUILD_TESTS "Build all tests." OFF) # Makes boolean 'test' available.
 if (BUILD_TESTS)
 
   include(CTest)
-  include_directories(${GTEST_INCLUDE_DIRS})
-  
-  add_executable(run_functionality_consecutive_test unit_tests/functionality_test.cpp)
-  target_link_libraries(run_functionality_consecutive_test ${GTEST_LIBRARIES} -lpthread)
-  target_link_libraries(run_functionality_consecutive_test ${project_name}_static)
-  target_include_directories(run_functionality_consecutive_test PUBLIC ${PROJECT_SOURCE_DIR}/include)
-
-  add_executable(run_functionality_parallel_test unit_tests/functionality_test.cpp)
-  target_link_libraries(run_functionality_parallel_test ${GTEST_LIBRARIES} -lpthread)
-  target_link_libraries(run_functionality_parallel_test ${project_name}_dynamic)
-  target_include_directories(run_functionality_parallel_test PUBLIC ${PROJECT_SOURCE_DIR}/include)
-
-  add_executable(run_input_test unit_tests/input_test.cpp)
-  target_link_libraries(run_input_test ${GTEST_LIBRARIES} -lpthread)
-  target_link_libraries(run_input_test ${project_name}_static)
-  target_include_directories(run_input_test PUBLIC ${PROJECT_SOURCE_DIR}/include)
-
-  add_executable(run_comparison_test unit_tests/comparison_test.cpp)
-  target_link_libraries(run_comparison_test ${GTEST_LIBRARIES} -lpthread)
-  target_link_libraries(run_comparison_test ${project_name}_static)
-  target_include_directories(run_comparison_test PUBLIC ${PROJECT_SOURCE_DIR}/include)
-
-  add_test(functionality_consecutive_test ${EXECUTABLE_OUTPUT_PATH}/run_functionality_consecutive_test)
-  add_test(functionality_parallel_test ${EXECUTABLE_OUTPUT_PATH}/run_functionality_parallel_test)
-  add_test(input_test ${EXECUTABLE_OUTPUT_PATH}/run_input_test)
-  add_test(comparison_test ${EXECUTABLE_OUTPUT_PATH}/run_comparison_test)
+  add_subdirectory(unit_test)
 
 endif()
