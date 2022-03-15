@@ -1,3 +1,47 @@
+on: push
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2 
+      - run: make check
+  build:
+    runs-on: ubuntu-latest
+    needs: [check]
+    steps:
+    - uses: actions/checkout@v2 
+    - run: make build
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        path: main.out
+  test:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v2 
+      - run: make test
+
+
+
+
+  steps:
+- uses: actions/checkout@v2
+- uses: codecov/codecov-action@v2
+  with:
+    files: ./coverage1.xml,./coverage2.xml # optional
+    name: codecov-umbrella
+    fail_ci_if_error: true
+    verbose: true
+
+
+
+
+
+
+
+
 # Copyright 2022 by Artem Ustsov
 # Use the latest 2.1 version of CircleCI pipeline process engine.
 version: 2.1

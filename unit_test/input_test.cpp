@@ -1,3 +1,4 @@
+// Copyright 2022 by Artem Ustsov
 #include <cstring>
 #include <fstream>
 #include <gtest/gtest.h>

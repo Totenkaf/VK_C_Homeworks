@@ -33,7 +33,7 @@ include(ExternalProject)
 # 2 | Executable Main
 # ------------------------------------------------------------------------------
 
-add_executable(${PROJECT_NAME} main.c)
+add_executable(${PROJECT_NAME} src/main.c)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${BOOK_CATALOG_LIB_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${BOOK_CATALOG_LIB_LIBRARIES})
