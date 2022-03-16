@@ -167,7 +167,7 @@ if(ENABLE_CPPCHECK)
         -I ${CMAKE_SOURCE_DIR}/book_catalog_lib
         ${CMAKE_SOURCE_DIR}/book_catalog_lib/*.h
         ${CMAKE_SOURCE_DIR}/book_catalog_lib/*.c
-        ${CMAKE_SOURCE_DIR}/*.c
+        ${CMAKE_SOURCE_DIR}/src/*.c
     )
 
     add_custom_target(
