@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
                              {"input_mode", required_argument, NULL, 'i'},
                              {NULL, 0, NULL, 0}};
 
-  while ((c = getopt_long(argc, argv, ":p:i:", options, &opt_idx)) != -1) {
+  while ((c = getopt_long(argc, argv, ":p:i:", options, &opt_idx)) != -1) { // NOLINT
     switch (c) {
     case 0:
       printf("long option %s", options[opt_idx].name);
@@ -32,11 +32,11 @@ int main(int argc, char *argv[]) {
       break;
 
     case 'p':
-      print_mode = atoi(optarg);
+      print_mode = atoi(optarg); // NOLINT
       break;
 
     case 'i':
-      input_mode = atoi(optarg);
+      input_mode = atoi(optarg); // NOLINT
       break;
 
     case '?':

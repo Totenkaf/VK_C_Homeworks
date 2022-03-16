@@ -192,6 +192,7 @@ bool take_the_book(BookCatalog** book_catalog_p, FILE* file) {
           }
     }
     if(error && !feof(file)) {
+        free(persons_p);
         return false;
     }
     if (error) {
