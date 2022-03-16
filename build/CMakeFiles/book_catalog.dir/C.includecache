@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../book_catalog_lib/book.h
+person.h
+../book_catalog_lib/person.h
+stdbool.h
+-
+
+../book_catalog_lib/book_catalog.h
+book.h
+../book_catalog_lib/book.h
+
+../book_catalog_lib/person.h
+stdio.h
+-
+stdlib.h
+-
+
+/home/tater/Technopark/Sem_1/C_Homeworks/src/main.c
+book_catalog.h
+/home/tater/Technopark/Sem_1/C_Homeworks/src/book_catalog.h
+getopt.h
+-
+string.h
+-
+unistd.h
+-
+

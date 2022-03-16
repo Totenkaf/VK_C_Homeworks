@@ -1,0 +1,2 @@
+/usr/bin/ar qc libbook_catalog_lib.a  CMakeFiles/book_catalog_lib.dir/book.c.o CMakeFiles/book_catalog_lib.dir/book_catalog.c.o CMakeFiles/book_catalog_lib.dir/person.c.o CMakeFiles/book_catalog_lib.dir/utilities.c.o
+/usr/bin/ranlib libbook_catalog_lib.a

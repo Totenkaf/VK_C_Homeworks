@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/tater/Technopark/Sem_1/C_Homeworks/book_catalog_lib/book.h
+person.h
+/home/tater/Technopark/Sem_1/C_Homeworks/book_catalog_lib/person.h
+stdbool.h
+-
+
+/home/tater/Technopark/Sem_1/C_Homeworks/book_catalog_lib/book_catalog.c
+book_catalog.h
+/home/tater/Technopark/Sem_1/C_Homeworks/book_catalog_lib/book_catalog.h
+utilities.h
+/home/tater/Technopark/Sem_1/C_Homeworks/book_catalog_lib/utilities.h
+
+/home/tater/Technopark/Sem_1/C_Homeworks/book_catalog_lib/book_catalog.h
+book.h
+/home/tater/Technopark/Sem_1/C_Homeworks/book_catalog_lib/book.h
+
+/home/tater/Technopark/Sem_1/C_Homeworks/book_catalog_lib/person.h
+stdio.h
+-
+stdlib.h
+-
+
+/home/tater/Technopark/Sem_1/C_Homeworks/book_catalog_lib/utilities.h
+stdio.h
+-
+stdlib.h
+-
+
