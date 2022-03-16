@@ -6,28 +6,28 @@ jobs:
     steps:
       - uses: actions/checkout@v2 
       - run: |
-          apt-get update && apt-get install -y gcc g++
+          sudo apt-get update && sudo apt-get install -y gcc g++
           which gcc
       - run: |
-          apt-get update && apt-get install -y lcov
+          sudo apt-get update && sudo apt-get install -y lcov
           which lcov
       - run: |
-          apt-get update && sudo apt-get install -y python3-pip
+          sudo apt-get update && sudo apt-get install -y python3-pip
           which python3-pip
       - run: |
-          apt-get update && apt-get install -y valgrind
+          sudo apt-get update && sudo apt-get install -y valgrind
           which valgrind-pip
       - run: |
-          apt-get update && sudo apt-get install -y cmake
+          sudo apt-get update && sudo apt-get install -y cmake
           which cmake
       - run: |
-          apt-get update && sudo apt-get install -y clang-format
+          sudo apt-get update && sudo apt-get install -y clang-format
           which clang-format
       - run: |
-          apt-get update && sudo apt-get install -y clang-tidy
+          sudo apt-get update && sudo apt-get install -y clang-tidy
           which clang-tidy
       - run: |
-          apt-get update && sudo pip install cpplint
+          sudo apt-get update && sudo pip install cpplint
           which cpplint
       - run: |
           VERSION=1.0.0; \
