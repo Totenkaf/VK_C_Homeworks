@@ -1,5 +1,9 @@
 // Copyright 2022 by Artem Ustsov
-#include "utils.h"
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 
 #define NUM_CONST 10
 enum exit_result {_EXIT_SUCCESS = 0, _EXIT_FAILURE};

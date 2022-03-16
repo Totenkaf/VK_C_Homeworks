@@ -1,5 +1,6 @@
 // Copyright 2022 by Artem Ustsov
 #include "book.h"
+#include "utils.h"
 
 void print_book(const Book* book, size_t num) {
     printf("\n");

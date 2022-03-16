@@ -1,5 +1,6 @@
 // Copyright 2022 by Artem Ustsov
 #include "person.h"
+#include <stdbool.h>
 
 typedef struct Book {
   bool is_tooked;

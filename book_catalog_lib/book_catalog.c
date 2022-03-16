@@ -196,6 +196,7 @@ bool take_the_book(BookCatalog** book_catalog_p, FILE* file) {
         return false;
     }
     if (error) {
+      free(persons_p);
       return false;
     }
     return true;

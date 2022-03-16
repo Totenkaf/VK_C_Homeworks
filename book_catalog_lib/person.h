@@ -1,5 +1,6 @@
 // Copyright 2022 by Artem Ustsov
-#include "utils.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 typedef struct PersonTookedBook {
   char *surname;
