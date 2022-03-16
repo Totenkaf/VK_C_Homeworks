@@ -1,13 +1,13 @@
 on: push
 
 jobs:
-  formatting:
+  checking:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: WORKING DIRECTORY
         run: pwd
-    
+
       - name: INSTALL GCC
         run: |
           sudo apt-get update && sudo apt-get install -y gcc g++
@@ -30,25 +30,6 @@ jobs:
           sudo make
           sudo make clang-format
           cd ../
-
-
-  checking:
-    runs-on: ubuntu-latest
-    needs: [formatting]
-    steps:
-      - uses: actions/checkout@v2
-      - name: WORKING DIRECTORY
-        run: pwd
-
-      - name: INSTALL GCC
-        run: |
-          sudo apt-get update && sudo apt-get install -y gcc g++
-          which gcc
-
-      - name: INSTALL CMAKE
-        run: |
-          sudo apt-get update && sudo apt-get install -y cmake
-          which cmake
 
       - name: INSTALL CLANG-TIDY
         run: |
