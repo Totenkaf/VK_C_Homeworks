@@ -1,6 +1,6 @@
 # VK | SEM I_Advanced C/CPP | HW_1
 [![GitHub Actions](https://github.com/Totenkaf/VK_C_Homeworks/actions/workflows/ci.yml/badge.svg)](https://github.com/Totenkaf/VK_C_Homeworks/actions/workflows/ci.yml)
-[![Codecov](https://codecov.io/gh/Totenkaf/VK_C_Homeworks/branch/HW_1/graph/badge.svg?token=H3GJRSKDGU)]()
+[![codecov](https://codecov.io/gh/Totenkaf/VK_C_Homeworks/branch/HW_1/graph/badge.svg?token=0jH3djOx42)](https://codecov.io/gh/Totenkaf/VK_C_Homeworks)
 
 Вариант #11
 ================================================================
