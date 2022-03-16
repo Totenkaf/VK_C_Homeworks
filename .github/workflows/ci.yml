@@ -72,22 +72,6 @@ jobs:
       #     fi
       #     cd ../
 
-      # - name: INSTALL LCOV
-      #   run: |
-      #     sudo apt-get update && sudo apt-get install -y lcov
-      #     which lcov
-
-      # - name: INSTALL PIP
-      #   run: |
-      #     sudo apt-get update && sudo apt-get install -y python3-pip
-      #     which python3
-      #     which pip
-
-      # - name: INSTALL VALGRIND
-      #   run: |
-      #     sudo apt-get update && sudo apt-get install -y valgrind
-      #     which valgrind
-
       # - name: INSTALL CPPLINT
       #   run: |
       #     sudo apt-get update && sudo pip install cpplint
@@ -123,20 +107,6 @@ jobs:
       #     sudo cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DENABLE_INFER=ON ..
       #     sudo make infer
       #     cd ../
-
-
-      # - name: INSTALL GTEST
-      #   run:  |
-      #     git clone https://github.com/google/googletest
-      #     pwd
-      #     cd ./googletest
-      #     pwd
-      #     mkdir -p build && cd build
-      #     sudo cmake ..
-      #     sudo make
-      #     sudo make install
-      #     cd ../../
-      #     pwd
 
   building:
     runs-on: ubuntu-latest
@@ -187,41 +157,96 @@ jobs:
           valgrind --tool=memcheck --leak-check=full --leak-resolution=med ./book_catalog -p1 -i1 ${FILE_NAME_1} ${FILE_NAME_2}
           cd ../
 
-      # - name: ADDRESS SANITIZER
-      #   run: |
-      #     mkdir -p build && cd build
-      #     sudo cmake -DBUILD_TESTS=ON -DENABLE_ASAN=ON -DENABLE_USAN=OFF -DENABLE_TSAN=OFF ..
-      #     sudo make
-      #     sudo make test
-      #     cd ../
+  testing:
+    runs-on: ubuntu-latest
+    needs: [building]
+    steps:
 
-      # - name: UNDEFINED SANITIZER
-      #   run: |
-      #     mkdir -p build && cd build
-      #     sudo cmake -DENABLE_ASAN=OFF -DENABLE_USAN=ON -DENABLE_TSAN=OFF ..
-      #     sudo make
-      #     sudo make test
-      #     cd ../
+      - uses: actions/checkout@v2
+      - name: WORKING DIRECTORY
+        run: pwd
 
-      # - name: THREAD SANITIZER
-      #   run: |
-      #     mkdir -p build && cd build
-      #     sudo cmake -DBUILD_TESTS=ON -DENABLE_ASAN=OFF -DENABLE_USAN=OFF -DENABLE_TSAN=ON ..
-      #     sudo make
-      #     sudo make test
-      #     cd ../
+      - name: INSTALL GCC
+        run: |
+          sudo apt-get update && sudo apt-get install -y gcc g++
+          which gcc
 
+      - name: INSTALL CMAKE
+        run: |
+          sudo apt-get update && sudo apt-get install -y cmake
+          which cmake
 
-#       - run:
-#           name: "UNIT TESTS CHECK"
-#           command: |
-#             mkdir -p ~/project/build
-#             cd ~/project/build
-#             cmake -DBUILD_TESTS=ON
-#             make
-#             ./run_consecutive_st ${COLS} ${ROWS} ${FILE_NAME} "consecutive_4x6.txt"
-#             ./run_parallel_st ${COLS} ${ROWS} ${FILE_NAME} "parallel_4x6.txt"
-#             make test
+      - name: INSTALL LCOV
+        run: |
+          sudo apt-get update && sudo apt-get install -y lcov
+          which lcov
+
+      - name: INSTALL PIP
+        run: |
+          sudo apt-get update && sudo apt-get install -y python3-pip
+          which python3
+          which pip
+
+      - name: INSTALL VALGRIND
+        run: |
+          sudo apt-get update && sudo apt-get install -y valgrind
+          which valgrind
+
+      - name: INSTALL GTEST
+        run:  |
+          git clone https://github.com/google/googletest
+          pwd
+          cd ./googletest
+          pwd
+          mkdir -p build && cd build
+          sudo cmake ..
+          sudo make
+          sudo make install
+          cd ../../
+          pwd
+
+        - name: INPUT_TEST
+          run:  |
+            mkdir -p build && cd build
+            sudo cmake -DBUILD_TESTS=ON ..
+            sudo make
+            cd unit_test
+            ./input_test
+            cd ../
+
+        - name: FUNCTIONALITY_TEST
+          run:  |
+            mkdir -p build && cd build
+            sudo cmake -DBUILD_TESTS=ON ..
+            sudo make
+            cd unit_test
+            ./functionality_test
+            cd ../
+
+      - name: ADDRESS SANITIZER
+        run: |
+          mkdir -p build && cd build
+          sudo cmake -DBUILD_TESTS=ON -DENABLE_ASAN=ON -DENABLE_USAN=OFF -DENABLE_TSAN=OFF ..
+          sudo make
+          sudo make test
+          cd ../
+
+      - name: UNDEFINED SANITIZER
+        run: |
+          mkdir -p build && cd build
+          sudo cmake -DENABLE_ASAN=OFF -DENABLE_USAN=ON -DENABLE_TSAN=OFF ..
+          sudo make
+          sudo make test
+          cd ../
+
+      - name: THREAD SANITIZER
+        run: |
+          mkdir -p build && cd build
+          sudo cmake -DBUILD_TESTS=ON -DENABLE_ASAN=OFF -DENABLE_USAN=OFF -DENABLE_TSAN=ON ..
+          sudo make
+          sudo make test
+          cd ../
+
 
 #       - run:
 #           name: "CODECOV CHECK"
