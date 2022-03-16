@@ -1,51 +1,51 @@
 on: push
 
 jobs:
-  installing-environment:
+  installing-environment-check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: WORKING DIRECTORY
         run: pwd
-      # - name: INSTALL GCC
-      #   run: |
-      #     sudo apt-get update && sudo apt-get install -y gcc g++
-      #     which gcc
-      # - name: INSTALL LCOV
-      #   run: |
-      #     sudo apt-get update && sudo apt-get install -y lcov
-      #     which lcov
-      # - name: INSTALL PIP
-      #   run: |
-      #     sudo apt-get update && sudo apt-get install -y python3-pip
-      #     which python3
-      #     which pip
-      # - name: INSTALL VALGRIND
-      #   run: |
-      #     sudo apt-get update && sudo apt-get install -y valgrind
-      #     which valgrind
-      # - name: INSTALL CMAKE
-      #   run: |
-      #     sudo apt-get update && sudo apt-get install -y cmake
-      #     which cmake
-      # - name: INSTALL CLANG-FORMAT
-      #   run: |
-      #     sudo apt-get update && sudo apt-get install -y clang-format
-      #     which clang-format
-      # - name: INSTALL CLANG-TIDY
-      #   run: |
-      #     sudo apt-get update && sudo apt-get install -y clang-tidy
-      #     which clang-tidy
-      # - name: INSTALL CPPLINT
-      #   run: |
-      #     sudo apt-get update && sudo pip install cpplint
-      #     which cpplint
-      # - name: INSTALL FBINFER
-      #   run: |
-      #     VERSION=1.0.0; \
-      #       curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" \
-      #       | sudo tar -C /opt -xJ && \
-      #       sudo ln -s "/opt/infer-linux64-v$VERSION/bin/infer" /usr/local/bin/infer
+      - name: INSTALL GCC
+        run: |
+          sudo apt-get update && sudo apt-get install -y gcc g++
+          which gcc
+      - name: INSTALL LCOV
+        run: |
+          sudo apt-get update && sudo apt-get install -y lcov
+          which lcov
+      - name: INSTALL PIP
+        run: |
+          sudo apt-get update && sudo apt-get install -y python3-pip
+          which python3
+          which pip
+      - name: INSTALL VALGRIND
+        run: |
+          sudo apt-get update && sudo apt-get install -y valgrind
+          which valgrind
+      - name: INSTALL CMAKE
+        run: |
+          sudo apt-get update && sudo apt-get install -y cmake
+          which cmake
+      - name: INSTALL CLANG-FORMAT
+        run: |
+          sudo apt-get update && sudo apt-get install -y clang-format
+          which clang-format
+      - name: INSTALL CLANG-TIDY
+        run: |
+          sudo apt-get update && sudo apt-get install -y clang-tidy
+          which clang-tidy
+      - name: INSTALL CPPLINT
+        run: |
+          sudo apt-get update && sudo pip install cpplint
+          which cpplint
+      - name: INSTALL FBINFER
+        run: |
+          VERSION=1.0.0; \
+            curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" \
+            | sudo tar -C /opt -xJ && \
+            sudo ln -s "/opt/infer-linux64-v$VERSION/bin/infer" /usr/local/bin/infer
       - name: INSTALL GTEST
         run:  |
           git clone https://github.com/google/googletest
@@ -58,6 +58,32 @@ jobs:
           sudo make install
           cd ../../
           pwd
+      - name: GIT CHECK
+        run: |
+          if [[ -n $(git diff --check HEAD^) ]]; then
+            echo "You must remove whitespace before submitting a pull request"
+            echo ""
+            git diff --check HEAD^
+            exit -1
+          fi
+
+  build:
+    runs-on: ubuntu-latest
+    needs: [installing-environment-check]
+    steps:
+      - uses: actions/checkout@v2
+      - name: CLANG-FORMATTING
+        run: |
+            mkdir -p build && cd build
+            sudo cmake -DENABLE_CLANG_FORMAT=ON ..
+            sudo make
+            sudo make clang-format
+
+
+
+
+
+
 
 
 
@@ -96,12 +122,6 @@ jobs:
 #     name: codecov-umbrella
 #     fail_ci_if_error: true
 #     verbose: true
-
-
-
-
-
-
 
 
 # # Copyright 2022 by Artem Ustsov
