@@ -117,50 +117,50 @@ jobs:
       - name: WORKING DIRECTORY
         run: pwd
 
-      - name: INSTALL GCC
-        run: |
-          sudo apt-get update && sudo apt-get install -y gcc g++
-          which gcc
+      # - name: INSTALL GCC
+      #   run: |
+      #     sudo apt-get update && sudo apt-get install -y gcc g++
+      #     which gcc
 
-      - name: INSTALL CMAKE
-        run: |
-          sudo apt-get update && sudo apt-get install -y cmake
-          which cmake
+      # - name: INSTALL CMAKE
+      #   run: |
+      #     sudo apt-get update && sudo apt-get install -y cmake
+      #     which cmake
 
-      - name: INSTALL VALGRIND
-        run: |
-          sudo apt-get update && sudo apt-get install -y valgrind
-          which valgrind
+      # - name: INSTALL VALGRIND
+      #   run: |
+      #     sudo apt-get update && sudo apt-get install -y valgrind
+      #     which valgrind
 
-      - name: RUN MAIN PROGRAMM_1
-        run: |
-          mkdir -p build && cd build
-          sudo cmake ..
-          sudo make
-          FILE_NAME_1="../src/catalog.txt"
-          FILE_NAME_2="../src/persons.txt"
-          ./book_catalog -po -i1 ${FILE_NAME_1} ${FILE_NAME_2}
-          cd ../
+      # - name: RUN MAIN PROGRAMM_1
+      #   run: |
+      #     mkdir -p build && cd build
+      #     sudo cmake ..
+      #     sudo make
+      #     FILE_NAME_1="../src/catalog.txt"
+      #     FILE_NAME_2="../src/persons.txt"
+      #     ./book_catalog -po -i1 ${FILE_NAME_1} ${FILE_NAME_2}
+      #     cd ../
 
-      - name: RUN MAIN PROGRAMM_2
-        run: |
-          mkdir -p build && cd build
-          sudo cmake ..
-          sudo make
-          FILE_NAME_1="../src/catalog.txt"
-          FILE_NAME_2="../src/persons.txt"
-          sudo ./book_catalog -p1 -i1 ${FILE_NAME_1} ${FILE_NAME_2}
-          cd ../
+      # - name: RUN MAIN PROGRAMM_2
+      #   run: |
+      #     mkdir -p build && cd build
+      #     sudo cmake ..
+      #     sudo make
+      #     FILE_NAME_1="../src/catalog.txt"
+      #     FILE_NAME_2="../src/persons.txt"
+      #     sudo ./book_catalog -p1 -i1 ${FILE_NAME_1} ${FILE_NAME_2}
+      #     cd ../
 
-      - name: RUN VALGRIND
-        run: |
-          mkdir -p build && cd build
-          sudo cmake ..
-          sudo make
-          FILE_NAME_1="../src/catalog.txt"
-          FILE_NAME_2="../src/persons.txt"
-          sudo valgrind --tool=memcheck --leak-check=full --leak-resolution=med ./book_catalog -p1 -i1 ${FILE_NAME_1} ${FILE_NAME_2}
-          cd ../
+      # - name: RUN VALGRIND
+      #   run: |
+      #     mkdir -p build && cd build
+      #     sudo cmake ..
+      #     sudo make
+      #     FILE_NAME_1="../src/catalog.txt"
+      #     FILE_NAME_2="../src/persons.txt"
+      #     sudo valgrind --tool=memcheck --leak-check=full --leak-resolution=med ./book_catalog -p1 -i1 ${FILE_NAME_1} ${FILE_NAME_2}
+      #     cd ../
 
   testing:
     runs-on: ubuntu-latest
@@ -241,7 +241,7 @@ jobs:
       - name: UNDEFINED SANITIZER
         run: |
           mkdir -p build && cd build
-          sudo cmake -DENABLE_ASAN=OFF -DENABLE_USAN=ON -DENABLE_TSAN=OFF ..
+          sudo cmake -DBUILD_TESTS=ON -DENABLE_ASAN=OFF -DENABLE_USAN=ON -DENABLE_TSAN=OFF ..
           sudo make
           cd unit_test
           sudo ./input_test
@@ -258,23 +258,22 @@ jobs:
           sudo ./functionality_test
           cd ../../
 
-
-#       - run:
-#           name: "CODECOV CHECK"
-#           command: |
-#             mkdir -p ~/project/build
-#             cd ~/project/build
-#             cmake -DBUILD_TESTS=ON -DENABLE_STRESS_TEST=ON -DENABLE_COVERAGE=ON ..
-#             make
-#             FILE_NAME=test.txt
-          
-#             ./run_creation ${FILE_NAME}
-#             ./run_consecutive_st ${MATRIX_COLS} ${MATRIX_ROWS} ${FILE_NAME} ${OUTPUT_PATH}
-#             make test
-#             lcov --directory . --capture --output-file coverage.info
-#             lcov --remove coverage.info '/usr/*' "${HOME}" '/.cache/*' --output-file coverage.info
-#             lcov --list coverage.info
-#             rm output.txt
-#             cd ..
-#             bash <(curl -s https://codecov.io/bash) -f build/coverage.info || echo "CodeCov didn't collect coverage reports"
-#             cat codecov.yml | curl --data-binary @- https://codecov.io/validate
+      - name: CODE COVERAGE
+        uses: codecov/codecov-action@v2
+        run: |
+          mkdir -p build && cd build
+          sudo cmake -DBUILD_TESTS=ON -DENABLE_COVERAGE=ON ..
+          sudo make
+          FILE_NAME_1="../src/catalog.txt"
+          FILE_NAME_2="../src/persons.txt"
+          sudo ./book_catalog -p1 -i1 ${FILE_NAME_1} ${FILE_NAME_2}
+          cd unit_test
+          sudo ./input_test
+          sudo ./functionality_test
+          cd ../
+          lcov --directory . --capture --output-file coverage.info
+          lcov --remove coverage.info '/usr/*' "${HOME}" '/.cache/*' --output-file coverage.info
+          lcov --list coverage.info
+          cd ..
+          bash <(curl -s https://codecov.io/bash) -f build/coverage.info || echo "CodeCov didn't collect coverage reports"
+          cat codecov.yml | curl --data-binary @- https://codecov.io/validate

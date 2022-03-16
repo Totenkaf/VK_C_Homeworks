@@ -29,3 +29,11 @@ add_library(${PROJECT_NAME} ${SOURCES})
 
 set(BOOK_CATALOG_LIB_LIBRARIES ${PROJECT_NAME} PARENT_SCOPE)
 set(BOOK_CATALOG_LIB_INCLUDE_DIRS ${INCLUDE_DIRS} PARENT_SCOPE)
+
+
+# ==============================================================================
+# III | Check settings
+# ==============================================================================
+if(ENABLE_COVERAGE)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -O0 -fprofile-arcs -ftest-coverage -lgcov")
+endif()

@@ -148,24 +148,27 @@ bool take_the_book(BookCatalog **book_catalog_p, FILE *file) {
   size_t book_num = 0;
   char *string = NULL;
   size_t integer = 0;
+  size_t num_of_persons = 0;
+
   PersonTookedBook *persons_p = NULL;
   while (!feof(file) && !error) {
     book_num = (size_t)input_int(file) - 1;
     if (book_num > book_catalog->size - 1) {
       error = true;
-    }
-    size_t num_of_persons = input_int(file);
-    if (num_of_persons == 0) {
-      error = true;
     } else {
-      book_catalog->books[book_num].num_of_persons_tooked =
-          (size_t)num_of_persons;
-      book_catalog->books[book_num].is_tooked = true;
-      persons_p =
-          (PersonTookedBook *)malloc(num_of_persons * sizeof(PersonTookedBook));
-      if (!persons_p) {
-        error = true;
-      }
+          num_of_persons = (size_t)input_int(file);
+          if (num_of_persons == 0) {
+            error = true;
+          } else {
+            book_catalog->books[book_num].num_of_persons_tooked =
+                num_of_persons;
+            book_catalog->books[book_num].is_tooked = true;
+            persons_p =
+                (PersonTookedBook *)malloc(num_of_persons * sizeof(PersonTookedBook));
+            if (!persons_p) {
+              error = true;
+            }
+          }
     }
 
     if (!error) {
@@ -193,10 +196,10 @@ bool take_the_book(BookCatalog **book_catalog_p, FILE *file) {
       }
     }
   }
-  if (error && !feof(file)) { // NOLINT
+  if (error && !feof(file)) {
     return false;
   }
-  if (error) { // NOLINT
+  if (error) {
     return false;
   }
   return true;

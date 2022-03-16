@@ -10,7 +10,7 @@ project(${project_name})
 
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -ldl -pthread -Wall -Wextra -Wpedantic -Werror")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pthread -Wall -Wextra -Wpedantic -Werror")
 
 # ==============================================================================
 # II | Preinstall settings
@@ -36,7 +36,7 @@ include(ExternalProject)
 add_executable(${PROJECT_NAME} src/main.c)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${BOOK_CATALOG_LIB_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} PUBLIC ${BOOK_CATALOG_LIB_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${BOOK_CATALOG_LIB_LIBRARIES})
 
 
 # ==============================================================================
@@ -126,8 +126,6 @@ endif()
 # 5 | CodeCoverage
 # ------------------------------------------------------------------------------
 if(ENABLE_COVERAGE)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -O0 -fprofile-arcs -ftest-coverage -lgcov")
-    set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -g -O0 -fprofile-arcs -ftest-coverage -lgcov")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lgcov --coverage")
 endif()
 
