@@ -46,16 +46,15 @@ jobs:
             curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" \
             | sudo tar -C /opt -xJ && \
             sudo ln -s "/opt/infer-linux64-v$VERSION/bin/infer" /usr/local/bin/infer
-      # - name: INSTALL GTEST
-      #   run:  |
-      #     git clone https://github.com/google/googletest
-      #     cd ~/project/googletest
-      #     mkdir -p ~/project/googletest/build
-      #     cd ~/project/googletest/build
-      #     sudo cmake ..
-      #     make
-      #     make install
-      #     cd ~/project
+      - name: INSTALL GTEST
+          run:  |
+            git clone https://github.com/google/googletest
+            cd ./googletest
+            mkdir -p build && cd build
+            sudo cmake ..
+            make
+            make install
+            cd ../
 
 
 
