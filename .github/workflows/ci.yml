@@ -56,7 +56,7 @@ jobs:
           sudo cmake ..
           sudo make
           sudo make install
-          cd ../
+          cd ../../
           pwd
 
 
