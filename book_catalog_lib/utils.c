@@ -37,7 +37,7 @@ char *input_string(FILE* file) {
             }
             if(!error) {
                 if (buf.string) {
-                    tmp = strcpy(tmp, buf.string);
+                    tmp = strncpy(tmp, buf.string, buf.size);
                     free(buf.string);
                 }
             }

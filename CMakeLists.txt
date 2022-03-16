@@ -62,7 +62,7 @@ if(ENABLE_CLANG_TIDY)
     list(APPEND RUN_CLANG_TIDY_BIN_ARGS
         -clang-tidy-binary ${CLANG_TIDY_BIN}
         -header-filter=.*
-        -checks=cert*,misc*,perf*,cppc*,read*,mode*
+        -checks=misc*,perf*,cppc*,read*,mode*
     )
     add_custom_target(
         tidy

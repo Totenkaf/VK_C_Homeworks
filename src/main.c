@@ -43,10 +43,6 @@ int main(int argc, char *argv[]) {
       printf("Unknown option %c\n", optopt);
       break;
 
-    case ':':
-      printf("Missing argument for %c\n", optopt);
-      break;
-
     default:
       break;
     }
