@@ -226,34 +226,37 @@ jobs:
           sudo make
           cd unit_test
           sudo ./functionality_test
-          cd ../
+          cd ../../
 
       - name: ADDRESS SANITIZER
         run: |
           mkdir -p build && cd build
           sudo cmake -DBUILD_TESTS=ON -DENABLE_ASAN=ON -DENABLE_USAN=OFF -DENABLE_TSAN=OFF ..
           sudo make
+          cd unit_test
           sudo ./input_test
           sudo ./functionality_test
-          cd ../
+          cd ../../
 
       - name: UNDEFINED SANITIZER
         run: |
           mkdir -p build && cd build
           sudo cmake -DENABLE_ASAN=OFF -DENABLE_USAN=ON -DENABLE_TSAN=OFF ..
           sudo make
+          cd unit_test
           sudo ./input_test
           sudo ./functionality_test
-          cd ../
+          cd ../../
 
       - name: THREAD SANITIZER
         run: |
           mkdir -p build && cd build
           sudo cmake -DBUILD_TESTS=ON -DENABLE_ASAN=OFF -DENABLE_USAN=OFF -DENABLE_TSAN=ON ..
           sudo make
+          cd unit_test
           sudo ./input_test
           sudo ./functionality_test
-          cd ../
+          cd ../../
 
 
 #       - run:
