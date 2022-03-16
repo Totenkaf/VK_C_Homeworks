@@ -172,6 +172,8 @@ jobs:
           mkdir -p build && cd build
           sudo cmake ..
           sudo make
+          FILE_NAME_1="../src/catalog.txt"
+          FILE_NAME_2="../src/persons.txt"
           ./book_catalog -p1 -i1 ${FILE_NAME_1} ${FILE_NAME_2}
           cd ../
 
@@ -180,6 +182,8 @@ jobs:
           mkdir -p build && cd build
           sudo cmake ..
           sudo make
+          FILE_NAME_1="../src/catalog.txt"
+          FILE_NAME_2="../src/persons.txt"
           valgrind --tool=memcheck --leak-check=full --leak-resolution=med ./book_catalog -p1 -i1 ${FILE_NAME_1} ${FILE_NAME_2}
           cd ../
 
