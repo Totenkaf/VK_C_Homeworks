@@ -84,177 +84,72 @@ jobs:
           sudo cmake -DENABLE_CLANG_FORMAT=ON ..
           sudo make
           sudo make clang-format
+          cd ../
 
+      - name: CLANG-TIDY CHECK
+        run: |
+          mkdir -p build && cd build
+          sudo cmake -DENABLE_CLANG_TIDY=ON ..
+          sudo make
+          sudo make tidy > output.txt
+          if [[ -n $(grep "warning: " output.txt) ]] || [[ -n $(grep "error: " output.txt) ]]; then
+              echo "You must pass the clang tidy checks before submitting a pull request"
+              echo ""
+              grep --color -E '^|warning: |error: ' output.txt
+              exit -1;
+          else
+              echo -e "\033[1;32m\xE2\x9C\x93 passed:\033[0m $1";
+          fi
+          cd ../
 
+      - name: CPPLINT CHECK
+        run: |
+          mkdir -p build && cd build
+          sudo cmake -DENABLE_CPPLINT=ON ..
+          sudo make
+          sudo make cpplint
+          cd ../
 
+      - name: CPP CHECK
+        run: |
+          mkdir -p build && cd build
+          sudo cmake -DENABLE_CPPCHECK=ON ..
+          sudo make
+          sudo make check
+          cd ../
 
+      # - name: FBINFER CHECK
+      #   run: |
+      #     mkdir -p build && cd build
+      #     sudo apt install libncurses5 -y
+      #     sudo cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DENABLE_INFER=ON ..
+      #     sudo make infer
+      #     cd ../
 
+      # - name: ADDRESS SANITIZER
+      #   run: |
+      #     mkdir -p build && cd build
+      #     sudo cmake -DBUILD_TESTS=ON -DENABLE_ASAN=ON -DENABLE_USAN=OFF -DENABLE_TSAN=OFF ..
+      #     sudo make
+      #     sudo make test
+      #     cd ../
 
+      # - name: UNDEFINED SANITIZER
+      #   run: |
+      #     mkdir -p build && cd build
+      #     sudo cmake -DENABLE_ASAN=OFF -DENABLE_USAN=ON -DENABLE_TSAN=OFF ..
+      #     sudo make
+      #     sudo make test
+      #     cd ../
 
+      # - name: THREAD SANITIZER
+      #   run: |
+      #     mkdir -p build && cd build
+      #     sudo cmake -DBUILD_TESTS=ON -DENABLE_ASAN=OFF -DENABLE_USAN=OFF -DENABLE_TSAN=ON ..
+      #     sudo make
+      #     sudo make test
+      #     cd ../
 
-
-
-# jobs:
-#   check:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v2 
-#       - run: make check
-#   build:
-#     runs-on: ubuntu-latest
-#     needs: [check]
-#     steps:
-#     - uses: actions/checkout@v2 
-#     - run: make build
-#     - name: Upload artifacts
-#       uses: actions/upload-artifact@v2
-#       with:
-#         path: main.out
-#   test:
-#     runs-on: ubuntu-latest
-#     needs: [build]
-#     steps:
-#       - uses: actions/checkout@v2 
-#       - run: make test
-
-
-
-
-#   steps:
-# - uses: actions/checkout@v2
-# - uses: codecov/codecov-action@v2
-#   with:
-#     files: ./coverage1.xml,./coverage2.xml # optional
-#     name: codecov-umbrella
-#     fail_ci_if_error: true
-#     verbose: true
-
-
-# # Copyright 2022 by Artem Ustsov
-# # Use the latest 2.1 version of CircleCI pipeline process engine.
-# version: 2.1
-# orbs:
-#   codecov: codecov/codecov@3.2.0
-
-# jobs:
-#   build:
-#     docker:
-#       - image: "buildpack-deps:focal"
-
-#     working_directory: ~/project
-#     steps:
-#       - checkout
-#       - run:
-#           name: "INSTALLING SUDO"
-#           command: 'apt-get update -qq && apt-get install -y sudo && rm -rf /var/lib/apt/lists/*'
-
-#       - run:
-#           name: "INSTALLING GCC"
-#           command: |
-#             apt-get update && apt-get install -y gcc g++
-#             which gcc
-
-#       - run:
-#           name: "INSTALLING LCOV"
-#           command: 'apt-get update && apt-get install -y lcov'
-
-#       - run:
-#           name: "INSTALLING PIP"
-#           command: 'apt-get update && sudo apt-get install -y python3-pip'
-
-#       - run:
-#           name: "INSTALLING VALGRIND"
-#           command: 'apt-get update && apt-get install -y valgrind'
-
-#       - run:
-#           name: "INSTALLING CMAKE"
-#           command: 'apt-get update && sudo apt-get install -y cmake'
-
-#       - run:
-#           name: "INSTALLING CLANG-FORMAT"
-#           command: 'apt-get update && sudo apt-get install -y clang-format'
-
-#       - run:
-#           name: "INSTALLING CLANG-TIDY"
-#           command: 'apt-get update && sudo apt-get install -y clang-tidy'
-
-#       - run:
-#           name: "INSTALLING CPPLINT"
-#           command: 'apt-get update && sudo pip install cpplint'
-
-      # - run:
-      #     name: "INSTALLING INFER"
-      #     command: |
-      #       VERSION=1.0.0; \
-      #       curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" \
-      #       | sudo tar -C /opt -xJ && \
-      #       sudo ln -s "/opt/infer-linux64-v$VERSION/bin/infer" /usr/local/bin/infer
-
-#       - run:
-#           name: "INSTALLING GTEST"
-#           command: |
-#             git clone https://github.com/google/googletest
-#             cd ~/project/googletest
-#             mkdir -p ~/project/googletest/build
-#             cd ~/project/googletest/build
-#             sudo cmake ..
-#             make
-#             make install
-#             cd ~/project
-
-#       - run:
-#           name: "GITCHECK"
-#           command: |
-#             if [[ -n $(git diff --check HEAD^) ]]; then
-#               echo "You must remove whitespace before submitting a pull request"
-#               echo ""
-#               git diff --check HEAD^
-#               exit -1
-#             fi
-
-#       - run:
-#           name: "CLANG FORMATING"
-#           command: |
-#             mkdir -p ~/project/build
-#             cd ~/project/build
-#             cmake -DENABLE_CLANG_FORMAT=ON ..
-#             make
-#             make clang-format
-
-#       - run:
-#           name: "CLANG TIDY CHECK"
-#           command: |
-#             mkdir -p ~/project/build
-#             cd ~/project/build
-#             cmake -DENABLE_CLANG_TIDY=ON ..
-#             make
-#             make tidy > output.txt
-#             if [[ -n $(grep "warning: " output.txt) ]] || [[ -n $(grep "error: " output.txt) ]]; then
-#                 echo "You must pass the clang tidy checks before submitting a pull request"
-#                 echo ""
-#                 grep --color -E '^|warning: |error: ' output.txt
-#                 exit -1;
-#             else
-#                 echo -e "\033[1;32m\xE2\x9C\x93 passed:\033[0m $1";
-#             fi
-
-#       - run:
-#           name: "CPPLINT"
-#           command: |
-#             mkdir -p ~/project/build
-#             cd ~/project/build
-#             cmake -DENABLE_CPPLINT=ON ..
-#             make
-#             make cpplint
-
-#       - run:
-#           name: "INFER CHECK"
-#           command: |
-#             mkdir -p ~/project/build
-#             cd ~/project/build
-#             sudo apt install libncurses5 -y
-#             cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DENABLE_STRESS_TEST=ON -DBUILD_TESTS=ON -DENABLE_INFER=ON ..
-#             make infer
 
 #       - run:
 #           name: "VALGRIND CREATION CHECK"
@@ -290,33 +185,6 @@ jobs:
 #             make
 #             ./run_consecutive_st ${COLS} ${ROWS} ${FILE_NAME} "consecutive_4x6.txt"
 #             ./run_parallel_st ${COLS} ${ROWS} ${FILE_NAME} "parallel_4x6.txt"
-#             make test
-
-#       - run:
-#           name: "ADDRESS SANITIZER"
-#           command: |
-#             mkdir -p ~/project/build
-#             cd ~/project/build
-#             cmake -DBUILD_TESTS=ON -DENABLE_ASAN=ON -DENABLE_USAN=OFF -DENABLE_TSAN=OFF ..
-#             make
-#             make test
-
-#       - run:
-#           name: "UNDEFINED SANITIZER"
-#           command: |
-#             mkdir -p ~/project/build
-#             cd ~/project/build
-#             cmake -DENABLE_ASAN=OFF -DENABLE_USAN=ON -DENABLE_TSAN=OFF ..
-#             make
-#             make test
-
-#       - run:
-#           name: "THREAD SANITIZER"
-#           command: |
-#             mkdir -p ~/project/build
-#             cd ~/project/build
-#             cmake -DBUILD_TESTS=ON -DENABLE_ASAN=OFF -DENABLE_USAN=OFF -DENABLE_TSAN=ON ..
-#             make
 #             make test
 
 #       - run:
