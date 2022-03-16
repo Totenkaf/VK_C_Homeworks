@@ -47,14 +47,14 @@ jobs:
             | sudo tar -C /opt -xJ && \
             sudo ln -s "/opt/infer-linux64-v$VERSION/bin/infer" /usr/local/bin/infer
       - name: INSTALL GTEST
-          run:  |
-            git clone https://github.com/google/googletest
-            cd ./googletest
-            mkdir -p build && cd build
-            sudo cmake ..
-            make
-            make install
-            cd ../
+        run:  |
+          git clone https://github.com/google/googletest
+          cd ./googletest
+          mkdir -p build && cd build
+          sudo cmake ..
+          make
+          make install
+          cd ../
 
 
 
