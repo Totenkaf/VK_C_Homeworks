@@ -1,1 +1,0 @@
-/usr/bin/c++   -fuse-ld=gold -fsanitize=thread -g -O0 -fprofile-arcs -ftest-coverage -lgcov   -lgcov --coverage CMakeFiles/functionality_test.dir/functionality_test.cpp.o  -o functionality_test  ../book_catalog_lib/libbook_catalog_lib.a /usr/local/lib/libgtest.a -pthread 

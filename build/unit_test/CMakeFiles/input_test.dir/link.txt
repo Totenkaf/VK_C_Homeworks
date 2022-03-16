@@ -1,1 +1,0 @@
-/usr/bin/c++   -fuse-ld=gold -fsanitize=thread -g -O0 -fprofile-arcs -ftest-coverage -lgcov   -lgcov --coverage CMakeFiles/input_test.dir/input_test.cpp.o  -o input_test  ../book_catalog_lib/libbook_catalog_lib.a /usr/local/lib/libgtest.a -pthread 

@@ -1,1 +1,0 @@
-/usr/bin/cc  -pthread -Wall -Wextra -Wpedantic -Werror   -lgcov --coverage CMakeFiles/book_catalog.dir/src/main.c.o  -o book_catalog  book_catalog_lib/libbook_catalog_lib.a 
