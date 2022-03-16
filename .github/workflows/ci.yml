@@ -13,7 +13,6 @@ jobs:
           which lcov
       - run: |
           sudo apt-get update && sudo apt-get install -y python3-pip
-          which python3-pip
       - run: |
           sudo apt-get update && sudo apt-get install -y valgrind
           which valgrind-pip
