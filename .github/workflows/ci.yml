@@ -149,7 +149,7 @@ jobs:
           sudo make
           FILE_NAME_1="../src/catalog.txt"
           FILE_NAME_2="../src/persons.txt"
-          ./book_catalog -p1 -i1 ${FILE_NAME_1} ${FILE_NAME_2}
+          sudo ./book_catalog -p1 -i1 ${FILE_NAME_1} ${FILE_NAME_2}
           cd ../
 
       - name: RUN VALGRIND
@@ -159,7 +159,7 @@ jobs:
           sudo make
           FILE_NAME_1="../src/catalog.txt"
           FILE_NAME_2="../src/persons.txt"
-          valgrind --tool=memcheck --leak-check=full --leak-resolution=med ./book_catalog -p1 -i1 ${FILE_NAME_1} ${FILE_NAME_2}
+          sudo valgrind --tool=memcheck --leak-check=full --leak-resolution=med ./book_catalog -p1 -i1 ${FILE_NAME_1} ${FILE_NAME_2}
           cd ../
 
   testing:
@@ -216,7 +216,7 @@ jobs:
           sudo cmake -DBUILD_TESTS=ON ..
           sudo make
           cd unit_test
-          ./input_test
+          sudo ./input_test
           cd ../
 
       - name: FUNCTIONALITY_TEST
@@ -225,7 +225,7 @@ jobs:
           sudo cmake -DBUILD_TESTS=ON ..
           sudo make
           cd unit_test
-          ./functionality_test
+          sudo ./functionality_test
           cd ../
 
       - name: ADDRESS SANITIZER
@@ -233,7 +233,8 @@ jobs:
           mkdir -p build && cd build
           sudo cmake -DBUILD_TESTS=ON -DENABLE_ASAN=ON -DENABLE_USAN=OFF -DENABLE_TSAN=OFF ..
           sudo make
-          sudo make test
+          sudo ./input_test
+          sudo ./functionality_test
           cd ../
 
       - name: UNDEFINED SANITIZER
@@ -241,7 +242,8 @@ jobs:
           mkdir -p build && cd build
           sudo cmake -DENABLE_ASAN=OFF -DENABLE_USAN=ON -DENABLE_TSAN=OFF ..
           sudo make
-          sudo make test
+          sudo ./input_test
+          sudo ./functionality_test
           cd ../
 
       - name: THREAD SANITIZER
@@ -249,7 +251,8 @@ jobs:
           mkdir -p build && cd build
           sudo cmake -DBUILD_TESTS=ON -DENABLE_ASAN=OFF -DENABLE_USAN=OFF -DENABLE_TSAN=ON ..
           sudo make
-          sudo make test
+          sudo ./input_test
+          sudo ./functionality_test
           cd ../
 
 
