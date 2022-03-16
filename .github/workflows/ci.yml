@@ -205,23 +205,23 @@ jobs:
           cd ../../
           pwd
 
-        - name: INPUT_TEST
-          run:  |
-            mkdir -p build && cd build
-            sudo cmake -DBUILD_TESTS=ON ..
-            sudo make
-            cd unit_test
-            ./input_test
-            cd ../
+      - name: INPUT_TEST
+        run:  |
+          mkdir -p build && cd build
+          sudo cmake -DBUILD_TESTS=ON ..
+          sudo make
+          cd unit_test
+          ./input_test
+          cd ../
 
-        - name: FUNCTIONALITY_TEST
-          run:  |
-            mkdir -p build && cd build
-            sudo cmake -DBUILD_TESTS=ON ..
-            sudo make
-            cd unit_test
-            ./functionality_test
-            cd ../
+      - name: FUNCTIONALITY_TEST
+        run:  |
+          mkdir -p build && cd build
+          sudo cmake -DBUILD_TESTS=ON ..
+          sudo make
+          cd unit_test
+          ./functionality_test
+          cd ../
 
       - name: ADDRESS SANITIZER
         run: |
