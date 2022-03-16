@@ -191,12 +191,10 @@ bool take_the_book(BookCatalog** book_catalog_p, FILE* file) {
               
           }
     }
-    if(error && !feof(file)) {
-        free(persons_p);
+    if(error && !feof(file)) { // NOLINT
         return false;
     }
-    if (error) {
-      free(persons_p);
+    if (error) { // NOLINT
       return false;
     }
     return true;
