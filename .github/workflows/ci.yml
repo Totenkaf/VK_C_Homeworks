@@ -162,7 +162,9 @@ jobs:
           mkdir -p build && cd build
           sudo cmake ..
           sudo make
-          ./book_catalog -po -i1 ../src/catalog.txt ../src/persons.txt
+          FILE_NAME_1="../src/catalog.txt"
+          FILE_NAME_2="../src/persons.txt"
+          ./book_catalog -po -i1 ${FILE_NAME_1} ${FILE_NAME_2}
           cd ../
 
       - name: RUN MAIN PROGRAMM_2
@@ -170,7 +172,15 @@ jobs:
           mkdir -p build && cd build
           sudo cmake ..
           sudo make
-          ./book_catalog -p1 -i1 ../src/catalog.txt ../src/persons.txt
+          ./book_catalog -p1 -i1 ${FILE_NAME_1} ${FILE_NAME_2}
+          cd ../
+
+      - name: RUN VALGRIND
+        run: |
+          mkdir -p build && cd build
+          sudo cmake ..
+          sudo make
+          valgrind --tool=memcheck --leak-check=full --leak-resolution=med ./book_catalog -p1 -i1 ${FILE_NAME_1} ${FILE_NAME_2}
           cd ../
 
       # - name: ADDRESS SANITIZER
@@ -197,31 +207,6 @@ jobs:
       #     sudo make test
       #     cd ../
 
-
-#       - run:
-#           name: "VALGRIND CREATION CHECK"
-#           command: |
-#             mkdir -p ~/project/build
-#             cd ~/project/build
-#             cmake ..
-#             make
-#             FILE_NAME="test.txt"
-#             valgrind --tool=memcheck --leak-check=full --leak-resolution=med ./run_creation ${FILE_NAME}
-#             rm test.txt
-
-#       - run:
-#           name: "VALGRIND CONSECUTIVE CHECK"
-#           command: |
-#             mkdir -p ~/project/build
-#             cd ~/project/build
-#             cmake ..
-#             make
-#             MATRIX_COLS=5
-#             MATRIX_ROWS=10
-#             FILE_NAME="test.txt"
-#             ./run_creation ${MATRIX_COLS} ${MATRIX_ROWS} ${FILE_NAME}
-#             valgrind --tool=memcheck --leak-check=full --leak-resolution=med ./run_consecutive ${FILE_NAME}
-#             rm test.txt
 
 #       - run:
 #           name: "UNIT TESTS CHECK"
