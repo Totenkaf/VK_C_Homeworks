@@ -1,5 +1,6 @@
 // Copyright 2022 by Artem Ustsov
 #include "book_catalog.h"
+#include "utils.h"
 
 int create_catalog(BookCatalog** book_catalog_p, FILE* file) {
     if (!book_catalog_p) {
@@ -142,25 +143,29 @@ bool take_the_book(BookCatalog** book_catalog_p, FILE* file) {
         return false;
     }
 
+
     bool error = false;
     size_t book_num = 0;
     char* string = NULL;
     size_t integer = 0;
+    PersonTookedBook*  persons_p = NULL;
     while(!feof(file) && !error) {
         book_num = (size_t)input_int(file) - 1;
         if(book_num > book_catalog->size - 1) {
             error = true;
         }
           size_t num_of_persons = input_int(file);
-          if (!num_of_persons) {
+          if (num_of_persons == 0) {
             error = true;
+          } else {
+              book_catalog->books[book_num].num_of_persons_tooked = (size_t)num_of_persons;
+              book_catalog->books[book_num].is_tooked = true;
+              persons_p = (PersonTookedBook *)malloc(num_of_persons * sizeof(PersonTookedBook));
+              if(!persons_p) {
+                error = true;
+              }
           }
-          book_catalog->books[book_num].num_of_persons_tooked = (size_t)num_of_persons;
-          book_catalog->books[book_num].is_tooked = true;
-          PersonTookedBook*  persons_p = (PersonTookedBook *)malloc(num_of_persons * sizeof(PersonTookedBook));
-          if(!persons_p) {
-              error = true;
-          }
+          
           if (!error) {
               book_catalog->books[book_num].persons = persons_p;
               for (size_t i = 0; i < num_of_persons; ++i) {

@@ -7,7 +7,10 @@
 enum exit_result { _EXIT_SUCCESS = 0, _EXIT_FAILURE };
 
 int main(int argc, char *argv[]) {
-  int c, print_mode, input_mode, opt_idx = 0;
+  int c = 0;
+  int print_mode = 0;
+  int input_mode = 0;
+  int opt_idx = 0;
   const char *filename[2];
 
   struct option options[] = {{"print_mode", required_argument, NULL, 'p'},
@@ -58,10 +61,9 @@ int main(int argc, char *argv[]) {
       filename[i++] = argv[optind];
       ++optind;
     }
-    i = 0;
   }
 
-  FILE *file_1;
+  FILE *file_1 = NULL;
   if (input_mode == 1) {
     file_1 = fopen(filename[0], "r");
   } else {
@@ -80,7 +82,7 @@ int main(int argc, char *argv[]) {
   }
   fclose(file_1);
 
-  FILE *file_2;
+  FILE *file_2 = NULL;
   if (input_mode == 1) {
     file_2 = fopen(filename[1], "r");
   } else {

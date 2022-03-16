@@ -1,6 +1,7 @@
 // Copyright 2022 by Artem Ustsov
 #include "utils.h"
 
+#define NUM_CONST 10
 enum exit_result {_EXIT_SUCCESS = 0, _EXIT_FAILURE};
 
 char input_char(FILE* file) {
@@ -68,7 +69,7 @@ int input_int(FILE* file) {
             return 0;
         }
         if (!error) {
-            result = result * 10 + c - '0';
+            result = result * NUM_CONST + c - '0';
         }
     }
     if (error) {
