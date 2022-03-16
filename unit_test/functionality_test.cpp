@@ -5,7 +5,7 @@
 
 extern "C" {
     #include "book_catalog.h"
-    #include "utils.h"
+    #include "utilities.h"
 }
 
 TEST(BAD_INPUT, null_ptr_creation) {

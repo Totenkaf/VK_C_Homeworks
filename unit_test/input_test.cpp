@@ -4,7 +4,7 @@
 #include <gtest/gtest.h>
 
 extern "C" {
-    #include "utils.h"
+    #include "utilities.h"
 }
 
 TEST(FUNCTIONAL_TEST, INPUT_CHAR_TEST) {

@@ -1,44 +1,53 @@
 on: push
 
 jobs:
-  installing-checks:
+
+  formatting:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
       - name: WORKING DIRECTORY
         run: pwd
-
+    
       - name: INSTALL GCC
         run: |
           sudo apt-get update && sudo apt-get install -y gcc g++
           which gcc
-
-      # - name: INSTALL LCOV
-      #   run: |
-      #     sudo apt-get update && sudo apt-get install -y lcov
-      #     which lcov
-
-      # - name: INSTALL PIP
-      #   run: |
-      #     sudo apt-get update && sudo apt-get install -y python3-pip
-      #     which python3
-      #     which pip
-
-      # - name: INSTALL VALGRIND
-      #   run: |
-      #     sudo apt-get update && sudo apt-get install -y valgrind
-      #     which valgrind
 
       - name: INSTALL CMAKE
         run: |
           sudo apt-get update && sudo apt-get install -y cmake
           which cmake
 
-      # - name: INSTALL CLANG-FORMAT
-      #   run: |
-      #     sudo apt-get update && sudo apt-get install -y clang-format
-      #     which clang-format
+      - name: INSTALL CLANG-FORMAT
+        run: |
+          sudo apt-get update && sudo apt-get install -y clang-format
+          which clang-format
+
+      - name: CLANG-FORMATTING
+        run: |
+          mkdir -p build && cd build
+          sudo cmake -DENABLE_CLANG_FORMAT=ON ..
+          sudo make
+          sudo make clang-format
+          cd ../
+
+
+  checks:
+    runs-on: ubuntu-latest
+    needs: [formatting]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: INSTALL GCC
+        run: |
+          sudo apt-get update && sudo apt-get install -y gcc g++
+          which gcc
+
+      - name: INSTALL CMAKE
+        run: |
+          sudo apt-get update && sudo apt-get install -y cmake
+          which cmake
 
       - name: INSTALL CLANG-TIDY
         run: |
@@ -61,10 +70,42 @@ jobs:
           fi
           cd ../
 
-      # - name: INSTALL CPPLINT
+      # - name: INSTALL LCOV
       #   run: |
-      #     sudo apt-get update && sudo pip install cpplint
-      #     which cpplint
+      #     sudo apt-get update && sudo apt-get install -y lcov
+      #     which lcov
+
+      # - name: INSTALL PIP
+      #   run: |
+      #     sudo apt-get update && sudo apt-get install -y python3-pip
+      #     which python3
+      #     which pip
+
+      # - name: INSTALL VALGRIND
+      #   run: |
+      #     sudo apt-get update && sudo apt-get install -y valgrind
+      #     which valgrind
+
+      - name: INSTALL CPPLINT
+        run: |
+          sudo apt-get update && sudo pip install cpplint
+          which cpplint
+
+      - name: CPPLINT CHECK
+        run: |
+          mkdir -p build && cd build
+          sudo cmake -DENABLE_CPPLINT=ON ..
+          sudo make
+          sudo make cpplint
+          cd ../
+
+      - name: CPP CHECK
+        run: |
+          mkdir -p build && cd build
+          sudo cmake -DENABLE_CPPCHECK=ON ..
+          sudo make
+          sudo make check
+          cd ../
 
       # - name: INSTALL FBINFER
       #   run: |
@@ -72,6 +113,15 @@ jobs:
       #       curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" \
       #       | sudo tar -C /opt -xJ && \
       #       sudo ln -s "/opt/infer-linux64-v$VERSION/bin/infer" /usr/local/bin/infer
+
+      - name: FBINFER CHECK
+        run: |
+          mkdir -p build && cd build
+          sudo apt install libncurses5 -y
+          sudo cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DENABLE_INFER=ON ..
+          sudo make infer
+          cd ../
+
 
       # - name: INSTALL GTEST
       #   run:  |
@@ -92,53 +142,7 @@ jobs:
 #     steps:
 
 #       - uses: actions/checkout@v2
-#       - name: CLANG-FORMATTING
-#         run: |
-#           mkdir -p build && cd build
-#           sudo cmake -DENABLE_CLANG_FORMAT=ON ..
-#           sudo make
-#           sudo make clang-format
-#           cd ../
 
-#       - name: CLANG-TIDY CHECK
-#         run: |
-#           mkdir -p build && cd build
-#           sudo cmake -DENABLE_CLANG_TIDY=ON ..
-#           sudo make
-#           sudo make tidy > output.txt
-#           if [[ -n $(grep "warning: " output.txt) ]] || [[ -n $(grep "error: " output.txt) ]]; then
-#               echo "You must pass the clang tidy checks before submitting a pull request"
-#               echo ""
-#               grep --color -E '^|warning: |error: ' output.txt
-#               exit -1;
-#           else
-#               echo -e "\033[1;32m\xE2\x9C\x93 passed:\033[0m $1";
-#           fi
-#           cd ../
-
-#       - name: CPPLINT CHECK
-#         run: |
-#           mkdir -p build && cd build
-#           sudo cmake -DENABLE_CPPLINT=ON ..
-#           sudo make
-#           sudo make cpplint
-#           cd ../
-
-#       - name: CPP CHECK
-#         run: |
-#           mkdir -p build && cd build
-#           sudo cmake -DENABLE_CPPCHECK=ON ..
-#           sudo make
-#           sudo make check
-#           cd ../
-
-#       # - name: FBINFER CHECK
-#       #   run: |
-#       #     mkdir -p build && cd build
-#       #     sudo apt install libncurses5 -y
-#       #     sudo cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DENABLE_INFER=ON ..
-#       #     sudo make infer
-#       #     cd ../
 
 #       # - name: ADDRESS SANITIZER
 #       #   run: |

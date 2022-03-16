@@ -76,8 +76,8 @@ endif()
 # ------------------------------------------------------------------------------
 if(ENABLE_CLANG_FORMAT)
   file(GLOB_RECURSE ALL_CXX_SOURCE_FILES
-         ${PROJECT_SOURCE_DIR}/book_catalog_lib/
          ${PROJECT_SOURCE_DIR}/book_catalog_lib/*.h
+         ${PROJECT_SOURCE_DIR}/book_catalog_lib/*.c
          ${PROJECT_SOURCE_DIR}/src/*.c
   )
   add_custom_target(
@@ -109,7 +109,7 @@ endif()
 if(ENABLE_CPPLINT)
   file(GLOB_RECURSE ALL_CXX_SOURCE_FILES
          ${PROJECT_SOURCE_DIR}/book_catalog_lib/*.c
-         ${PROJECT_SOURCE_DIR}/*.c
+         ${PROJECT_SOURCE_DIR}/src/*.c
   )
 
   add_custom_target(
