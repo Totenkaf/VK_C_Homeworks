@@ -1,7 +1,7 @@
 on: push
 
 jobs:
-  github check:
+  github-check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,6 +16,7 @@ jobs:
 
   installing-environment:
     runs-on: ubuntu-latest
+    needs: [github-check]
     steps:
       - uses: actions/checkout@v2
       - name: WORKING DIRECTORY
