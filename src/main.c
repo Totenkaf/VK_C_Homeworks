@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
   int print_mode = 0;
   int input_mode = 0;
   int opt_idx = 0;
-  const char *filename[2];
+  const char *filename[2] = {NULL, NULL};
 
   struct option options[] = {{"print_mode", required_argument, NULL, 'p'},
                              {"input_mode", required_argument, NULL, 'i'},

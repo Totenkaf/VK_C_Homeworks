@@ -1,7 +1,7 @@
 on: push
 
 jobs:
-  installing-environment:
+  installing-checks:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -14,31 +14,31 @@ jobs:
           sudo apt-get update && sudo apt-get install -y gcc g++
           which gcc
 
-      - name: INSTALL LCOV
-        run: |
-          sudo apt-get update && sudo apt-get install -y lcov
-          which lcov
+      # - name: INSTALL LCOV
+      #   run: |
+      #     sudo apt-get update && sudo apt-get install -y lcov
+      #     which lcov
 
-      - name: INSTALL PIP
-        run: |
-          sudo apt-get update && sudo apt-get install -y python3-pip
-          which python3
-          which pip
+      # - name: INSTALL PIP
+      #   run: |
+      #     sudo apt-get update && sudo apt-get install -y python3-pip
+      #     which python3
+      #     which pip
 
-      - name: INSTALL VALGRIND
-        run: |
-          sudo apt-get update && sudo apt-get install -y valgrind
-          which valgrind
+      # - name: INSTALL VALGRIND
+      #   run: |
+      #     sudo apt-get update && sudo apt-get install -y valgrind
+      #     which valgrind
 
       - name: INSTALL CMAKE
         run: |
           sudo apt-get update && sudo apt-get install -y cmake
           which cmake
 
-      - name: INSTALL CLANG-FORMAT
-        run: |
-          sudo apt-get update && sudo apt-get install -y clang-format
-          which clang-format
+      # - name: INSTALL CLANG-FORMAT
+      #   run: |
+      #     sudo apt-get update && sudo apt-get install -y clang-format
+      #     which clang-format
 
       - name: INSTALL CLANG-TIDY
         run: |
@@ -61,30 +61,30 @@ jobs:
           fi
           cd ../
 
-      - name: INSTALL CPPLINT
-        run: |
-          sudo apt-get update && sudo pip install cpplint
-          which cpplint
+      # - name: INSTALL CPPLINT
+      #   run: |
+      #     sudo apt-get update && sudo pip install cpplint
+      #     which cpplint
 
-      - name: INSTALL FBINFER
-        run: |
-          VERSION=1.0.0; \
-            curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" \
-            | sudo tar -C /opt -xJ && \
-            sudo ln -s "/opt/infer-linux64-v$VERSION/bin/infer" /usr/local/bin/infer
+      # - name: INSTALL FBINFER
+      #   run: |
+      #     VERSION=1.0.0; \
+      #       curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" \
+      #       | sudo tar -C /opt -xJ && \
+      #       sudo ln -s "/opt/infer-linux64-v$VERSION/bin/infer" /usr/local/bin/infer
 
-      - name: INSTALL GTEST
-        run:  |
-          git clone https://github.com/google/googletest
-          pwd
-          cd ./googletest
-          pwd
-          mkdir -p build && cd build
-          sudo cmake ..
-          sudo make
-          sudo make install
-          cd ../../
-          pwd
+      # - name: INSTALL GTEST
+      #   run:  |
+      #     git clone https://github.com/google/googletest
+      #     pwd
+      #     cd ./googletest
+      #     pwd
+      #     mkdir -p build && cd build
+      #     sudo cmake ..
+      #     sudo make
+      #     sudo make install
+      #     cd ../../
+      #     pwd
 
 #   build-checks:
 #     runs-on: ubuntu-latest
