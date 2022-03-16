@@ -258,8 +258,8 @@ jobs:
           sudo ./functionality_test
           cd ../../
 
+      - uses: codecov/codecov-action@v2
       - name: CODE COVERAGE
-        uses: codecov/codecov-action@v2
         run: |
           mkdir -p build && cd build
           sudo cmake -DBUILD_TESTS=ON -DENABLE_COVERAGE=ON ..
