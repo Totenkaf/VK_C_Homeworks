@@ -49,12 +49,15 @@ jobs:
       - name: INSTALL GTEST
         run:  |
           git clone https://github.com/google/googletest
+          pwd
           cd ./googletest
+          pwd
           mkdir -p build && cd build
           sudo cmake ..
           sudo make
           sudo make install
           cd ../
+          pwd
 
 
 
