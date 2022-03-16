@@ -7,62 +7,62 @@
 enum exit_result { _EXIT_SUCCESS = 0, _EXIT_FAILURE };
 
 int main(int argc, char *argv[]) {
-    int c, print_mode, input_mode, opt_idx = 0;
-    const char* filename[2];
+  int c, print_mode, input_mode, opt_idx = 0;
+  const char *filename[2];
 
-    struct option options[] = {
-        { "print_mode",  required_argument,  NULL,           'p' },
-        { "input_mode",  required_argument,  NULL,           'i' },
-        { NULL,        0,                    NULL,            0 }
-    };
+  struct option options[] = {{"print_mode", required_argument, NULL, 'p'},
+                             {"input_mode", required_argument, NULL, 'i'},
+                             {NULL, 0, NULL, 0}};
 
-    while ( (c = getopt_long(argc, argv, ":p:i:", options, &opt_idx)) != -1 ) {
-        switch (c) {
-        case 0: 
-            printf("long option %s", options[opt_idx].name);
-            if (optarg) { printf(" with arg %s", optarg); }
-            printf("\n");
-            break;
-        
-        case 1:
-            printf("non-option argument %s\n", optarg);
-            break;
+  while ((c = getopt_long(argc, argv, ":p:i:", options, &opt_idx)) != -1) {
+    switch (c) {
+    case 0:
+      printf("long option %s", options[opt_idx].name);
+      if (optarg) {
+        printf(" with arg %s", optarg);
+      }
+      printf("\n");
+      break;
 
-        case 'p':
-            print_mode = atoi(optarg);
-            break;
-        
-        case 'i':
-            input_mode = atoi(optarg);
-            break;
-        
-        case '?':
-            printf("Unknown option %c\n", optopt);
-            break;
+    case 1:
+      printf("non-option argument %s\n", optarg);
+      break;
 
-        case ':':
-            printf("Missing argument for %c\n", optopt);
-            break;
+    case 'p':
+      print_mode = atoi(optarg);
+      break;
 
-        default:
-            break;
-        }
+    case 'i':
+      input_mode = atoi(optarg);
+      break;
+
+    case '?':
+      printf("Unknown option %c\n", optopt);
+      break;
+
+    case ':':
+      printf("Missing argument for %c\n", optopt);
+      break;
+
+    default:
+      break;
     }
+  }
 
-    printf("print_mode=%s, input_mode=%s\n", 
-          (print_mode == 0) ? "no print" : "print", 
-          (input_mode == 0) ? "stdin" : "file_input");
-    if(input_mode == 1) {
-        size_t i = 0;
-        while (optind < argc) {
-            filename[i++] = argv[optind];
-            ++optind;
-        }
-        i = 0;
+  printf("print_mode=%s, input_mode=%s\n",
+         (print_mode == 0) ? "no print" : "print",
+         (input_mode == 0) ? "stdin" : "file_input");
+  if (input_mode == 1) {
+    size_t i = 0;
+    while (optind < argc) {
+      filename[i++] = argv[optind];
+      ++optind;
     }
+    i = 0;
+  }
 
   FILE *file_1;
-  if(input_mode == 1) {
+  if (input_mode == 1) {
     file_1 = fopen(filename[0], "r");
   } else {
     file_1 = stdin;
@@ -74,14 +74,14 @@ int main(int argc, char *argv[]) {
   BookCatalog *new_catalog = NULL;
   bool success = create_catalog(&new_catalog, file_1);
   if (success) {
-    if(print_mode == 1) {
+    if (print_mode == 1) {
       print_catalog(new_catalog, new_catalog->size);
     }
   }
   fclose(file_1);
 
   FILE *file_2;
-  if(input_mode == 1) {
+  if (input_mode == 1) {
     file_2 = fopen(filename[1], "r");
   } else {
     file_2 = stdin;
@@ -93,7 +93,7 @@ int main(int argc, char *argv[]) {
 
   success = take_the_book(&new_catalog, file_2);
   if (success) {
-    if(print_mode == 1) {
+    if (print_mode == 1) {
       print_catalog(new_catalog, new_catalog->size);
     }
   }
