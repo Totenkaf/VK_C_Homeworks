@@ -1,11 +1,13 @@
 on: push
 
 jobs:
-  installing-sudo:
+  installing-gcc:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2 
-      - run: apt-get update -qq && apt-get install -y sudo
+      - run: |
+          apt-get update && apt-get install -y gcc g++
+          which gcc
 
 
 # jobs:
