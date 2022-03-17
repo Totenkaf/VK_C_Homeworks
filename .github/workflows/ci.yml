@@ -31,9 +31,8 @@ jobs:
       - name: SCAN-BUILD CHECK
         run: |
           mkdir -p build && cd build
-          sudo cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 DENABLE_SCAN_BUILD=ON ..
+          sudo cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DENABLE_SCAN_BUILD=ON ..
           sudo make
-          ls
           sudo make scanbuild
           sudo cat scan_answer.txt
           cd ../
