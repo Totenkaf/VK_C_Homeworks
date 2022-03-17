@@ -199,6 +199,28 @@ if(ENABLE_TSAN)
 endif()
 
 
+
+# ------------------------------------------------------------------------------
+# 8 | Scan-build
+# ------------------------------------------------------------------------------
+if(ENABLE_SCAN_BUILD)
+  file(GLOB_RECURSE ALL_CXX_SOURCE_FILES
+         ${PROJECT_SOURCE_DIR}/book_catalog_lib/*.h
+         ${PROJECT_SOURCE_DIR}/book_catalog_lib/*.c
+         ${PROJECT_SOURCE_DIR}/src/*.c
+  )
+  add_custom_target(
+    scanbuild
+    COMMAND analyze-build 
+    --cdb /path/to/build/compile_commands.json
+    --use-analyzer /path/to/clang
+    --output /path/to/output
+    ${ALL_CXX_SOURCE_FILES}
+  )
+
+endif()
+
+
 # ==============================================================================
 # IV | Tests
 # ==============================================================================
