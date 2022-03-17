@@ -18,20 +18,12 @@ jobs:
           sudo apt-get update && sudo apt-get install -y cmake
           which cmake
 
-      - name: INSTALL CLANG-FORMAT
+      - name: INSTALL CLANG, CLANG-TOOLS, CLANG-FORMAT
         run: |
+          sudo apt-get update && sudo apt-get install -y clang
           sudo apt-get update && sudo apt-get install -y clang-format
-          which clang-format
-
-      - name: INSTALL CLANG
-        run: |
-          sudo apt-get update && sudo apt-get install clang
+          sudo apt-get update && sudo apt-get install -y clang-tools-6.0
           which clang
-
-      - name: INSTALL CLANG-TOOLS
-        run: |
-          sudo apt-get update && sudo apt-get install clang-tools-6.0
-          which clang-tools
 
       - name: SCAN-BUILD CHECK
         run: |
