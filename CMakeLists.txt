@@ -211,9 +211,8 @@ if(ENABLE_SCAN_BUILD)
   )
   add_custom_target(
     scanbuild
-    COMMAND analyze-build 
-    --cdb compile_commands.json
-    --use-analyzer /usr/bin/clang
+    COMMAND --analyze --cdb compile_commands.json \
+    --use-analyzer /usr/bin/clang \
     --output scan_answer.txt
     ${ALL_CXX_SOURCE_FILES}
   )
