@@ -131,20 +131,6 @@ jobs:
           FILE_NAME_2="../src/persons.txt"
           sudo ./book_catalog -p1 -i1 ${FILE_NAME_1} ${FILE_NAME_2}
           cd ../
-      - name: INSTALL GCC
-        run: |
-          sudo apt-get update && sudo apt-get install -y gcc g++
-          which gcc
-
-      - name: INSTALL CMAKE
-        run: |
-          sudo apt-get update && sudo apt-get install -y cmake
-          which cmake
-
-      - name: INSTALL VALGRIND
-        run: |
-          sudo apt-get update && sudo apt-get install -y valgrind
-          which valgrind
 
       - name: RUN MAIN PROGRAMM_1
         run: |
@@ -166,7 +152,7 @@ jobs:
           sudo ./book_catalog -p1 -i1 ${FILE_NAME_1} ${FILE_NAME_2}
           cd ../
 
-      - name: RUN VALGRIND
+      - name: RUN VALGRIND MAIN PROGRAMM_1
         run: |
           mkdir -p build && cd build
           sudo cmake ..
@@ -175,7 +161,7 @@ jobs:
           FILE_NAME_2="../src/persons.txt"
           sudo valgrind --tool=memcheck --leak-check=full --leak-resolution=med ./book_catalog -p1 -i1 ${FILE_NAME_1} ${FILE_NAME_2}
           cd ../
-      - name: RUN VALGRIND
+      - name: RUN VALGRIND MAIN PROGRAMM_2
         run: |
           mkdir -p build && cd build
           sudo cmake ..
@@ -269,6 +255,16 @@ jobs:
           cd unit_test
           sudo ./input_test
           sudo ./functionality_test
+          cd ../../
+
+      - name: RUN VALGRIND TESTS
+        run: |
+          mkdir -p build && cd build
+          sudo cmake -DBUILD_TESTS=ON ..
+          sudo make
+          cd unit_test
+          sudo valgrind --tool=memcheck --leak-check=full --leak-resolution=med ./input_test
+          sudo valgrind --tool=memcheck --leak-check=full --leak-resolution=med ./functionality_test
           cd ../../
 
       - name: THREAD SANITIZER
