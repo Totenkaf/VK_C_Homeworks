@@ -25,16 +25,19 @@ jobs:
 
       - name: INSTALL CLANG
         run: |
-          sudo apt-get update && sudo apt-get install clang-5.0
+          sudo apt-get update && sudo apt-get install clang
           which clang
+
+      - name: INSTALL CLANG-TOOLS
+        run: |
+          sudo apt-get update && sudo apt-get install clang-tools-6.0
+          which clang-tools
 
       - name: SCAN-BUILD CHECK
         run: |
           mkdir -p build && cd build
-          sudo cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DENABLE_SCAN_BUILD=ON ..
-          sudo make
-          sudo make scanbuild
-          sudo cat scan_answer.txt
+          sudo cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 ..
+          scan-build sudo make
           cd ../
 
   #     - name: CLANG-FORMATTING
