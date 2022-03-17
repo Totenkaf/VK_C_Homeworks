@@ -25,7 +25,7 @@ jobs:
 
       - name: INSTALL CLANG
         run: |
-          sudo apt-get update && sudo apt install clang-5.0
+          sudo apt-get update && sudo apt-get install clang-5.0
           which clang
 
       - name: SCAN-BUILD CHECK
