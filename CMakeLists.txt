@@ -213,7 +213,7 @@ if(ENABLE_SCAN_BUILD)
     scanbuild
     COMMAND analyze-build 
     --cdb compile_commands.json
-    --use-analyzer /path/to/clang
+    --use-analyzer /usr/bin/clang
     --output scan_answer.txt
     ${ALL_CXX_SOURCE_FILES}
   )
