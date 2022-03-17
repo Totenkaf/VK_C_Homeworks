@@ -27,14 +27,14 @@ jobs:
         run: |
           sudo apt-get update && sudo apt install clang-12 --install-suggests
           which clang
-          which scan-build
 
       - name: SCAN-BUILD CHECK
         run: |
           mkdir -p build && cd build
-          sudo cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1
+          sudo cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 DENABLE_SCAN_BUILD=ON ..
           sudo make
           sudo make scanbuild
+          sudo cat scan_answer.txt
           cd ../
 
 

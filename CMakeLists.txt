@@ -212,9 +212,9 @@ if(ENABLE_SCAN_BUILD)
   add_custom_target(
     scanbuild
     COMMAND analyze-build 
-    --cdb /path/to/build/compile_commands.json
+    --cdb compile_commands.json
     --use-analyzer /path/to/clang
-    --output /path/to/output
+    --output scan_answer.txt
     ${ALL_CXX_SOURCE_FILES}
   )
 
