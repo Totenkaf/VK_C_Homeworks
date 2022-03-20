@@ -8,4 +8,4 @@ typedef struct PersonTookedBook {
   size_t num_of_taken;
 } PersonTookedBook;
 
-void print_person(const PersonTookedBook *person, const size_t num_of_persons);
+void print_person(const PersonTookedBook *person, size_t num_of_persons);
