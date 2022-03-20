@@ -83,7 +83,7 @@ int input_int(FILE *file) {
 void print_string(const char *symbol) {
   size_t i = 0;
   do {
-    printf("%c", symbol[i]);
+    printf("%s", symbol[i]);
     ++i;
   } while (symbol[i] != '\0');
 }

@@ -13,4 +13,4 @@ typedef struct Book {
   PersonTookedBook *persons;
 } Book;
 
-void print_book(const Book *book, size_t num);
+void print_book(const Book *book, const size_t num);

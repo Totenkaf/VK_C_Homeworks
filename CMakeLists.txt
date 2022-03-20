@@ -198,6 +198,29 @@ if(ENABLE_TSAN)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=thread")
 endif()
 
+
+
+# ------------------------------------------------------------------------------
+# 8 | Scan-build
+# ------------------------------------------------------------------------------
+if(ENABLE_SCAN_BUILD)
+  file(GLOB_RECURSE ALL_CXX_SOURCE_FILES
+         ${PROJECT_SOURCE_DIR}/book_catalog_lib/*.h
+         ${PROJECT_SOURCE_DIR}/book_catalog_lib/*.c
+         ${PROJECT_SOURCE_DIR}/src/*.c
+  )
+  add_custom_target(
+    scanbuild
+    COMMAND analyze-build 
+    --cdb compile_commands.json
+    --use-analyzer /usr/bin/clang
+    --output scan_answer.txt
+    ${ALL_CXX_SOURCE_FILES}
+  )
+
+endif()
+
+
 # ==============================================================================
 # IV | Tests
 # ==============================================================================

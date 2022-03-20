@@ -2,7 +2,7 @@
 #include "book.h"
 #include "utilities.h"
 
-void print_book(const Book *book, size_t num) {
+void print_book(const Book *book, const size_t num) {
   printf("\n");
   printf("%s %ld\n", "Book", num);
   printf("ISBN: ");

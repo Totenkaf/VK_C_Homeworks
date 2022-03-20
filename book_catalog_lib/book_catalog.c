@@ -1,6 +1,7 @@
 // Copyright 2022 by Artem Ustsov
 #include "book_catalog.h"
 #include "utilities.h"
+#define SIZE_FACTOR 2
 
 int create_catalog(BookCatalog **book_catalog_p, FILE *file) {
   if (!book_catalog_p) {
@@ -25,7 +26,7 @@ int create_catalog(BookCatalog **book_catalog_p, FILE *file) {
   while (!feof(file) && !error) {
     if (book_catalog->size + 1 >= book_catalog->capacity) {
       size_t new_capacity =
-          !book_catalog->capacity ? 1 : book_catalog->capacity * 2;
+          !book_catalog->capacity ? 1 : book_catalog->capacity * SIZE_FACTOR;
       Book *tmp =
           (Book *)realloc(book_catalog->books, new_capacity * sizeof(Book));
       if (!tmp) {
@@ -112,7 +113,7 @@ void delete_catalog(BookCatalog *book_catalog) {
   free(book_catalog);
 }
 
-void print_catalog(const BookCatalog *book_catalog, size_t catalog_size) {
+void print_catalog(const BookCatalog *book_catalog, const size_t catalog_size) {
   printf("BOOK CATALOG: \n");
   for (size_t i = 0; i < catalog_size; ++i) {
     print_book(&book_catalog->books[i], i + 1);

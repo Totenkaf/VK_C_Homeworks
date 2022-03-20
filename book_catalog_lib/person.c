@@ -2,7 +2,7 @@
 #include "person.h"
 #include "utilities.h"
 
-void print_person(const PersonTookedBook *person, size_t num_of_persons) {
+void print_person(const PersonTookedBook *person, const size_t num_of_persons) {
   printf("Persons: \n");
   for (size_t i = 0; i < num_of_persons; ++i) {
     print_string(person[i].surname);
