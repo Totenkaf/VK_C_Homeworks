@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* Gets a chunk of data from stream and returns the correct string*/
+// Gets a chunk of data from stream and returns the correct string
 char *input_string(FILE *stream) {
   size_t buffer_capacity = BUFFER_SIZE;
   char *buffer = (char *)malloc(sizeof(char) * buffer_capacity);
@@ -58,7 +58,7 @@ char *input_string(FILE *stream) {
   return new_string;
 }
 
-/* Converts input data from string format to numeric format */
+// Converts input data from string format to numeric format
 int input_number(FILE *stream) {
   char *string = input_string(stream);
   char *end = NULL;

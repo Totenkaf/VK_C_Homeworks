@@ -1,4 +1,5 @@
 // Copyright 2022 by Artem Ustsov
+
 #include "lib.h"
 
 #include <getopt.h>

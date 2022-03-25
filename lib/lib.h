@@ -1,10 +1,10 @@
 // Copyright 2022 by Artem Ustsov
 
-#ifndef LIB_H
-#define LIB_H
+#ifndef LIB_LIB_H_
+#define LIB_LIB_H_
 
 #include "ECG.h"
 
 size_t count_R_peaks(const ECG* ecg, size_t R_window);
 
-#endif //LIB_H
+#endif //LIB_LIB_H_

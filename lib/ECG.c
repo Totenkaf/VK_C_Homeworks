@@ -3,7 +3,7 @@
 #include "utils/utilities.h"
 #include <stdlib.h>
 
-/*Allocates memory in heap to ECG sequence*/
+//Allocates memory in heap to ECG sequence
 bool create_ECG(ECG** ecg_p, FILE* stream) {
     if (!ecg_p) {
         return false;
@@ -31,7 +31,7 @@ bool create_ECG(ECG** ecg_p, FILE* stream) {
     return true;
 }
 
-/* Deletes allocated memory under ECG sequence */
+//Deletes allocated memory under ECG sequence
 void delete_ecg(ECG* ecg) {
     if (!ecg) {
         return;

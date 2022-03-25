@@ -12,7 +12,7 @@ double get_time() {
 }
 
 /*Logging the time stats into stdout*/
-void save_stat(time_stat stat, unsigned long int result, const char* filename) {
+void save_stat(time_stat stat, uint64_t result, const char* filename) {
     FILE* file = fopen(filename, "a");
     if (!file) {
         return;

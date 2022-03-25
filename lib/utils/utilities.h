@@ -1,7 +1,7 @@
 // Copyright 2022 by Artem Ustsov
 
-#ifndef UTILITIES_H
-#define UTILITIES_H
+#ifndef LIB_UTILITIES_H_
+#define LIB_UTILITIES_H_
 
 #include <stdio.h>
 
@@ -12,4 +12,4 @@
 char *input_string(FILE *stream);
 int input_number(FILE *stream);
 
-#endif //UTILITIES_H
+#endif // LIB_UTILITIES_H_

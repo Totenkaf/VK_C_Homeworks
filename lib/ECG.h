@@ -1,7 +1,7 @@
 // Copyright 2022 by Artem Ustsov
 
-#ifndef ECG_H
-#define ECG_H
+#ifndef LIB_ECG_H_
+#define LIB_ECG_H_
 
 #include "stdbool.h"
 #include "stdio.h"
@@ -14,4 +14,4 @@ typedef struct ECG {
 bool create_ECG(ECG** ecg_p, FILE* stream);
 void delete_ecg(ECG* ecg);
 
-#endif //ECG_H
+#endif //LIB_ECG_H_
