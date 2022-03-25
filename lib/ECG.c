@@ -38,5 +38,4 @@ void delete_ecg(ECG* ecg) {
     }
     free(ecg->signals_data);
     free(ecg);
-    return;
 }
