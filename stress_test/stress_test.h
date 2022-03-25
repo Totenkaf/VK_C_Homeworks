@@ -1,7 +1,7 @@
 // Copyright 2022 by Artem Ustsov
 
-#ifndef COUNT_R_PEAKS_STRESS_TEST_H_
-#define COUNT_R_PEAKS_STRESS_TEST_H_
+#ifndef STRESS_TEST_STRESS_TEST_H_
+#define STRESS_TEST_STRESS_TEST_H_
 
 #include <stdint.h>
 #include <stdio.h>
@@ -26,4 +26,4 @@ double get_time();
 void save_stat(time_stat stat, uint64_t result, const char* filename);
 int create_random_sequence_file(const char* file_name, size_t sequence_size, size_t R_window);
 
-#endif //COUNT_R_PEAKS_STRESS_TEST_H_
+#endif // STRESS_TEST_STRESS_TEST_H_
