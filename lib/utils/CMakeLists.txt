@@ -3,7 +3,7 @@
 # ==============================================================================
 
 cmake_minimum_required(VERSION 3.8)
-project(lib)
+project(utils)
 
 
 set(CMAKE_C_STANDARD 99)
@@ -17,24 +17,16 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -ldl -pthread -Wall -Wextra -Wpedantic -Werr
 # ------------------------------------------------------------------------------
 # 1 | Includes
 # ------------------------------------------------------------------------------
-add_subdirectory(utils)
-file(GLOB SOURCES_STATIC ECG.c lib_static.c)
-# file(GLOB SOURCES_PARALLEL ECG.c lib_parallel.c)
+file(GLOB SOURCES *.c)
 file(GLOB INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
 
 # ------------------------------------------------------------------------------
 # 2 | Libs
 # ------------------------------------------------------------------------------
-add_library(${PROJECT_NAME}_static ${SOURCES_STATIC})
-target_link_libraries(${PROJECT_NAME}_static utils)
+add_library(${PROJECT_NAME} ${SOURCES})
 
-# add_library(${PROJECT_NAME}_parallel ${SOURCES_PARALLEL})
-# target_link_libraries(${PROJECT_NAME}_parallel utils)
-
-set(LIB_STATIC_LIBRARIES ${PROJECT_NAME}_static PARENT_SCOPE)
-set(LIB_PARALLEL_LIBRARIES ${PROJECT_NAME}_parallel PARENT_SCOPE)
-
-set(LIB_INCLUDE_DIRS ${INCLUDE_DIRS} PARENT_SCOPE)
+set(UTILS_LIBRARIES ${PROJECT_NAME} PARENT_SCOPE)
+set(UTILS_INCLUDE_DIRS ${INCLUDE_DIRS} PARENT_SCOPE)
 
 
 # ==============================================================================

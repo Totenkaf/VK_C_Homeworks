@@ -5,3 +5,4 @@ infer-out/
 clang-tools-infer.txt
 .circleci/
 config.yml
+test.txt
