@@ -1,7 +1,7 @@
 // Copyright 2022 by Artem Ustsov
 
-#ifndef BOOK_H
-#define BOOK_H
+#ifndef LIB_BOOK_H_
+#define LIB_BOOK_H_
 
 #include "person.h"
 #include <stdbool.h>
@@ -19,4 +19,4 @@ typedef struct Book {
 
 void print_book(const Book *book, size_t num);
 
-#endif // BOOK_H
+#endif // LIB_BOOK_H_
