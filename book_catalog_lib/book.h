@@ -1,4 +1,8 @@
 // Copyright 2022 by Artem Ustsov
+
+#ifndef BOOK_H
+#define BOOK_H
+
 #include "person.h"
 #include <stdbool.h>
 
@@ -14,3 +18,5 @@ typedef struct Book {
 } Book;
 
 void print_book(const Book *book, size_t num);
+
+#endif // BOOK_H
