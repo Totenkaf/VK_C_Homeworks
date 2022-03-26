@@ -1,9 +1,9 @@
 // Copyright 2022 by Artem Ustsov
 #include "ECG.h"
-#include "utils/utilities.h"
+#include "../utils/utilities.h"
 #include <stdlib.h>
 
-//Allocates memory in heap to ECG sequence
+// Allocates memory in heap to ECG sequence
 bool create_ECG(ECG** ecg_p, FILE* stream) {
     if (!ecg_p) {
         return false;
@@ -15,10 +15,15 @@ bool create_ECG(ECG** ecg_p, FILE* stream) {
         return false;
     }
 
-    int integer_input = input_number(stream);
+    ecg->size = 0;
+    ecg->signals_data = NULL;
+    ecg->R_window = 0;
+    int integer_input = 0;
+
+    integer_input = input_number(stream);
     ecg->size = integer_input;
 
-    ecg->signals_data = NULL;
+    
     ecg->signals_data = (int*) calloc(ecg->size, sizeof(int));
     if (!ecg->signals_data) {
         return false;
@@ -28,10 +33,14 @@ bool create_ECG(ECG** ecg_p, FILE* stream) {
         integer_input = input_number(stream);
         ecg->signals_data[i] = integer_input;
     }
+
+    integer_input = input_number(stream);
+    ecg->R_window = integer_input;
+
     return true;
 }
 
-//Deletes allocated memory under ECG sequence
+// Deletes allocated memory under ECG sequence
 void delete_ecg(ECG* ecg) {
     if (!ecg) {
         return;

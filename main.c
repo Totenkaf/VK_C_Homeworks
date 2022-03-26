@@ -1,6 +1,7 @@
 // Copyright 2022 by Artem Ustsov
 
 #include "lib.h"
+#include "utils/utilities.h"
 
 #include <getopt.h>
 #include <stdio.h>
@@ -61,12 +62,8 @@ int main(int argc, char* argv[]) {
   bool success = create_ECG(&ecg, file);
   if (success) {
       size_t result = 0;
-      size_t R_window = 0;
-      printf("Enter the R-window: ");
-      if ((scanf("%lu", &R_window)) != -1) {
-          result = count_R_peaks(ecg, R_window);
-          printf("Total count of R-extremums: %ld. {R-window = %ld}\n", result, R_window);
-      }
+      result = count_R_peaks(ecg);
+      printf("Total count of R-extremums: %ld. {R-window = %ld}\n", result, ecg->R_window);
   }
   fclose(file);
   delete_ecg(ecg);

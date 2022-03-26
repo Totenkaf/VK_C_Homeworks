@@ -9,6 +9,7 @@
 typedef struct ECG {
     int* signals_data;
     size_t size;
+    size_t R_window;
 } ECG;
 
 bool create_ECG(ECG** ecg_p, FILE* stream);

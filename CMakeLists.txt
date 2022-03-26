@@ -21,11 +21,15 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pthread -Wall -Wextra -Wpedantic -Werror")
 # ------------------------------------------------------------------------------
 
 add_subdirectory(lib)
+add_subdirectory(utils)
+
+message("UTILS_INCLUDE_DIRS = ${UTILS_INCLUDE_DIRS}")
+message("UTILS_LIBRARIES = ${UTILS_LIBRARIES}")
 
 message("LIB_INCLUDE_DIRS = ${LIB_INCLUDE_DIRS}")
 
 message("LIB_STATIC_LIBRARIES = ${LIB_STATIC_LIBRARIES}")
-message("LIB_PARALLEL_LIBRARIES = ${LIB_PARALLEL_LIBRARIES}")
+# message("LIB_PARALLEL_LIBRARIES = ${LIB_PARALLEL_LIBRARIES}")
 
 include(ExternalProject)
 
@@ -34,13 +38,13 @@ include(ExternalProject)
 # ------------------------------------------------------------------------------
 
 add_executable(${PROJECT_NAME} main.c)
-target_include_directories(${PROJECT_NAME} PUBLIC ${LIB_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PUBLIC ${LIB_INCLUDE_DIRS} ${UTILS_INCLUDE_DIRS})
 
 option(BUILD_PARALLEL "USING SHARED LIBRARY" OFF) # By default PARALLEL is OFF.
 if(BUILD_PARALLEL)
-    target_link_libraries(${PROJECT_NAME} PRIVATE ${LIB_PARALLEL_LIBRARIES})
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_PARALLEL_LIBRARIES} ${UTILS_LIBRARIES})
 else()
-    target_link_libraries(${PROJECT_NAME} PRIVATE ${LIB_STATIC_LIBRARIES})
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_STATIC_LIBRARIES} ${UTILS_LIBRARIES})
 endif()
 
 
@@ -249,8 +253,5 @@ endif()
 option(BUILD_TESTS "Build all tests." OFF) # Makes boolean 'test' available.
 
 if (BUILD_TESTS)
-
-  include(CTest)
   add_subdirectory(unit_test)
-
 endif()

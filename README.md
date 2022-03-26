@@ -1,3 +1,5 @@
+[![.github/workflows/ci.yml](https://github.com/Totenkaf/VK_C_Homeworks/actions/workflows/ci.yml/badge.svg?branch=HW_2)](https://github.com/Totenkaf/VK_C_Homeworks/actions/workflows/ci.yml)
+
 # VK | SEM I_Advanced C/CPP | HW_2
 
 Вариант #11
