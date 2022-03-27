@@ -26,4 +26,4 @@ double get_time();
 void save_stat(time_stat stat, uint64_t result, const char* filename);
 int create_random_sequence_file(const char* file_name, size_t sequence_size, size_t R_window);
 
-#endif // STRESS_TEST_STRESS_TEST_H_
+#endif //STRESS_TEST_STRESS_TEST_H_

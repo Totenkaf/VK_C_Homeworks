@@ -36,7 +36,6 @@ char *input_string(FILE *stream) {
       }
       buffer = new_buffer_p;
       buffer_p = buffer + buffer_real_size;
-
     }
     buffer_real_size += chunksize;
     memcpy(buffer_p, chunk, chunksize);
