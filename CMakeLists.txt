@@ -121,8 +121,8 @@ endif()
 # ------------------------------------------------------------------------------
 if(ENABLE_CPPLINT)
   file(GLOB_RECURSE ALL_CXX_SOURCE_FILES
-    ${PROJECT_SOURCE_DIR}/lib/utils/*.h
-    ${PROJECT_SOURCE_DIR}/lib/utils/*.c
+    ${PROJECT_SOURCE_DIR}/utils/*.h
+    ${PROJECT_SOURCE_DIR}/utils/*.c
     ${PROJECT_SOURCE_DIR}/lib/*.h
     ${PROJECT_SOURCE_DIR}/lib/*.c
     ${PROJECT_SOURCE_DIR}/unit_test/*.cpp
@@ -180,9 +180,8 @@ if(ENABLE_CPPCHECK)
         --language=c
         --check-config
         -DMAIN = main
-        -I ${CMAKE_SOURCE_DIR}/lib
-            ${CMAKE_SOURCE_DIR}/lib/utils/*.h
-            ${CMAKE_SOURCE_DIR}/lib/utils/*.c
+        -I  ${CMAKE_SOURCE_DIR}/utils/*.h
+            ${CMAKE_SOURCE_DIR}/utils/*.c
             ${CMAKE_SOURCE_DIR}/lib/*.h
             ${CMAKE_SOURCE_DIR}/lib/*.c
             ${CMAKE_SOURCE_DIR}/unit_test/*.cpp
@@ -227,8 +226,8 @@ endif()
 # ------------------------------------------------------------------------------
 if(ENABLE_SCAN_BUILD)
   file(GLOB_RECURSE ALL_CXX_SOURCE_FILES
-        ${PROJECT_SOURCE_DIR}/lib/utils/*.h
-        ${PROJECT_SOURCE_DIR}/lib/utils/*.c
+        ${PROJECT_SOURCE_DIR}/utils/*.h
+        ${PROJECT_SOURCE_DIR}/utils/*.c
         ${PROJECT_SOURCE_DIR}/lib/*.h
         ${PROJECT_SOURCE_DIR}/lib/*.c
         ${PROJECT_SOURCE_DIR}/unit_test/*.cpp
