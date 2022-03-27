@@ -8,7 +8,6 @@ extern "C" {
     #include "../utils/utilities.h"
 }
 
-
 TEST(STATIC_LIB_TEST_1, NULL_SEQUENCE) {
     ECG ecg = {.signals_data = nullptr, .size = 0, .R_window = 1};
     size_t result = count_R_peaks(&ecg);
