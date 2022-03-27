@@ -12,4 +12,4 @@
 char *input_string(FILE *stream);
 int input_number(FILE *stream);
 
-#endif //UTILS_UTILITIES_H_
+#endif  // UTILS_UTILITIES_H_
