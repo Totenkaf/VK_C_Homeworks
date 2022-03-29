@@ -34,11 +34,11 @@ FILE* run(long int* num_of_cores, FILE* stream, int argc, char* argv[]) {
           break;
 
         case 'i':
-          input_mode = strtol(optarg, NULL, BASIS);
+          input_mode = strtol(optarg, NULL, BASIS); //NOLINT
           break;
 
         case 'j':
-          *num_of_cores = strtol(optarg, NULL, BASIS);
+          *num_of_cores = strtol(optarg, NULL, BASIS); //NOLINT
           break;
 
         case '?':
