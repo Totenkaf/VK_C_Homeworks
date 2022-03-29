@@ -4,8 +4,8 @@
 #include <stdlib.h>
 
 // Count R extremums and ECG sequence
-size_t count_R_peaks(const ECG* ecg) {
-  if (ecg == NULL || ecg->signals_data == NULL || ecg->size == 0) {
+size_t count_R_peaks(const ECG* ecg, const long int num_of_cores) {
+  if (ecg == NULL || ecg->signals_data == NULL || ecg->size == 0 || num_of_cores != 0) {
     return 0;
   }
 

@@ -1,4 +1,5 @@
 [![.github/workflows/ci.yml](https://github.com/Totenkaf/VK_C_Homeworks/actions/workflows/ci.yml/badge.svg?branch=HW_2)](https://github.com/Totenkaf/VK_C_Homeworks/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/Totenkaf/VK_C_Homeworks/branch/HW_2/graph/badge.svg?token=0jH3djOx42)](https://codecov.io/gh/Totenkaf/VK_C_Homeworks)
 
 # VK | SEM I_Advanced C/CPP | HW_2
 

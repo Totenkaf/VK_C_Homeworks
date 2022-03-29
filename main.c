@@ -4,23 +4,22 @@
 #include "utils/utilities.h"
 
 #include <getopt.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
 enum exit_status {_EXIT_SUCCESS = 0, _EXIT_FAILURE};
 
-int main(int argc, char* argv[]) {
-    int c = 0;
-    int input_mode = 0;
-    int opt_idx = 0;
-    const char *filename = NULL;
 
+FILE* run(long int* num_of_cores, FILE* stream, int argc, char* argv[]) {
+    long int input_mode = 0;
+    int opt_idx = 0;
+    int c = 0;
     struct option options[] = { {"input_mode", required_argument, NULL, 'i'},
+                                {"cores", required_argument, NULL, 'j'},
                                 {NULL, 0, NULL, 0}
                               };
-    while ((c = getopt_long(argc, argv, ":i:", options, &opt_idx)) != -1) { // NOLINT
+    while ((c = getopt_long(argc, argv, ":j:i:", options, &opt_idx)) != -1) { // NOLINT
       switch (c) {
         case 0:
           printf("long option %s", options[opt_idx].name);
@@ -35,7 +34,11 @@ int main(int argc, char* argv[]) {
           break;
 
         case 'i':
-          input_mode = atoi(optarg); // NOLINT
+          input_mode = strtol(optarg, NULL, BASIS);
+          break;
+
+        case 'j':
+          *num_of_cores = strtol(optarg, NULL, BASIS);
           break;
 
         case '?':
@@ -47,25 +50,39 @@ int main(int argc, char* argv[]) {
       }
   }
 
-  FILE *file = NULL;
   if (input_mode == 1) {
-    filename = argv[optind];
-    file = fopen(filename, "r");
+    const char *filename = NULL;
+    filename = argv[optind++];
+    size_t size = (size_t)strtol(argv[optind++], NULL, BASIS);
+    size_t R_window = (size_t)strtol(argv[optind], NULL, BASIS);
+
+    bool success = create_random_sequence_file(filename, size, R_window);
+    if (!success) {
+      return NULL;
+    }
+    stream = fopen(filename, "r");
   } else {
-    file = stdin;
+    stream = stdin;
   }
-  if (!file) {
+  return stream;
+}
+
+int main(int argc, char* argv[]) {
+  FILE *stream = NULL;
+  long int num_of_cores = 0;
+  stream = run(&num_of_cores, stream, argc, argv);
+  if(!stream) {
     return _EXIT_FAILURE;
   }
 
   ECG *ecg = NULL;
-  bool success = create_ECG(&ecg, file);
+  bool success = create_ECG(&ecg, stream);
   if (success) {
       size_t result = 0;
-      result = count_R_peaks(ecg);
+      result = count_R_peaks(ecg, num_of_cores);
       printf("Total count of R-extremums: %ld. {R-window = %ld}\n", result, ecg->R_window);
   }
-  fclose(file);
+  fclose(stream);
   delete_ecg(ecg);
   return _EXIT_SUCCESS;
 }

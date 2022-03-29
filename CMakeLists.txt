@@ -26,11 +26,6 @@ add_subdirectory(utils)
 message("UTILS_INCLUDE_DIRS = ${UTILS_INCLUDE_DIRS}")
 message("UTILS_LIBRARIES = ${UTILS_LIBRARIES}")
 
-message("LIB_INCLUDE_DIRS = ${LIB_INCLUDE_DIRS}")
-
-message("LIB_STATIC_LIBRARIES = ${LIB_STATIC_LIBRARIES}")
-# message("LIB_PARALLEL_LIBRARIES = ${LIB_PARALLEL_LIBRARIES}")
-
 include(ExternalProject)
 
 # ------------------------------------------------------------------------------
@@ -43,8 +38,12 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${LIB_INCLUDE_DIRS} ${UTILS_IN
 option(BUILD_PARALLEL "USING SHARED LIBRARY" OFF) # By default PARALLEL is OFF.
 if(BUILD_PARALLEL)
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_PARALLEL_LIBRARIES} ${UTILS_LIBRARIES})
+    message("LIB_INCLUDE_DIRS = ${LIB_INCLUDE_DIRS}")
+    message("LIB_PARALLEL_LIBRARIES = ${LIB_PARALLEL_LIBRARIES}")
 else()
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_STATIC_LIBRARIES} ${UTILS_LIBRARIES})
+    message("LIB_INCLUDE_DIRS = ${LIB_INCLUDE_DIRS}")
+    message("LIB_STATIC_LIBRARIES = ${LIB_STATIC_LIBRARIES}")
 endif()
 
 

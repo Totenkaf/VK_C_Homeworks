@@ -5,6 +5,6 @@
 
 #include "ECG.h"
 
-size_t count_R_peaks(const ECG* ecg);
+size_t count_R_peaks(const ECG* ecg, long int num_of_cores);
 
 #endif //LIB_LIB_H_
