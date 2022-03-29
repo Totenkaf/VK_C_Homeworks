@@ -8,8 +8,6 @@
 #include <string.h>
 #include <unistd.h>
 
-enum exit_status {_EXIT_SUCCESS = 0, _EXIT_FAILURE};
-
 static FILE* get_stream(size_t* user_cores, int argc, char* argv[]) {
     FILE* stream = NULL;
     size_t input_mode = 0;

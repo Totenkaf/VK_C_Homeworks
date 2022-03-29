@@ -13,6 +13,8 @@
 #define SIZE_FACTOR 2
 #define TOP_BOUND_OF_VALUES 1000
 
+enum exit_status {_EXIT_SUCCESS = 0, _EXIT_FAILURE};
+
 bool create_random_sequence_file(const char *file_name, size_t size, size_t R_window);
 char *input_string(FILE *stream);
 int input_number(FILE *stream);
