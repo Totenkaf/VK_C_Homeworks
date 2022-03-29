@@ -12,7 +12,7 @@ enum exit_status {_EXIT_SUCCESS = 0, _EXIT_FAILURE};
 
 static FILE* get_stream(size_t* user_cores, int argc, char* argv[]) {
     FILE* stream = NULL;
-    long int input_mode = 0;
+    size_t input_mode = 0;
     int opt_idx = 0;
     int c = 0;
     struct option options[] = { {"input_mode", required_argument, NULL, 'i'},
@@ -34,11 +34,11 @@ static FILE* get_stream(size_t* user_cores, int argc, char* argv[]) {
           break;
 
         case 'i':
-          input_mode = strtol(optarg, NULL, BASIS); // NOLINT
+          input_mode = (size_t)strtol(optarg, NULL, BASIS); // NOLINT
           break;
 
         case 'j':
-          *user_cores = strtol(optarg, NULL, BASIS); // NOLINT
+          *user_cores = (size_t)strtol(optarg, NULL, BASIS); // NOLINT
           break;
 
         case '?':
