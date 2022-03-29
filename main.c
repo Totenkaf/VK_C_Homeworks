@@ -10,8 +10,7 @@
 
 enum exit_status {_EXIT_SUCCESS = 0, _EXIT_FAILURE};
 
-
-FILE* run(long int* num_of_cores, FILE* stream, int argc, char* argv[]) {
+static FILE* get_keys_from_stream(long int* num_of_cores, FILE* stream, int argc, char* argv[]) {
     long int input_mode = 0;
     int opt_idx = 0;
     int c = 0;
@@ -34,11 +33,11 @@ FILE* run(long int* num_of_cores, FILE* stream, int argc, char* argv[]) {
           break;
 
         case 'i':
-          input_mode = strtol(optarg, NULL, BASIS); //NOLINT
+          input_mode = strtol(optarg, NULL, BASIS); // NOLINT
           break;
 
         case 'j':
-          *num_of_cores = strtol(optarg, NULL, BASIS); //NOLINT
+          *num_of_cores = strtol(optarg, NULL, BASIS); // NOLINT
           break;
 
         case '?':
@@ -70,7 +69,7 @@ FILE* run(long int* num_of_cores, FILE* stream, int argc, char* argv[]) {
 int main(int argc, char* argv[]) {
   FILE *stream = NULL;
   long int num_of_cores = 0;
-  stream = run(&num_of_cores, stream, argc, argv);
+  stream = get_keys_from_stream(&num_of_cores, stream, argc, argv);
   if(!stream) {
     return _EXIT_FAILURE;
   }
