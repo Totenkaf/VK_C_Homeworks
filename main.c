@@ -10,7 +10,8 @@
 
 enum exit_status {_EXIT_SUCCESS = 0, _EXIT_FAILURE};
 
-static FILE* get_stream(long int* user_cores, FILE* stream, int argc, char* argv[]) {
+static FILE* get_stream(size_t* user_cores, int argc, char* argv[]) {
+    FILE* stream = NULL;
     long int input_mode = 0;
     int opt_idx = 0;
     int c = 0;
@@ -69,7 +70,7 @@ static FILE* get_stream(long int* user_cores, FILE* stream, int argc, char* argv
 int main(int argc, char* argv[]) {
   FILE *stream = NULL;
   size_t user_cores = 0;
-  stream = get_stream(&user_cores, stream, argc, argv);
+  stream = get_stream(&user_cores, argc, argv);
   if(!stream) {
     return _EXIT_FAILURE;
   }

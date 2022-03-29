@@ -85,8 +85,8 @@ endif()
 if(ENABLE_CLANG_FORMAT)
   file(GLOB_RECURSE ALL_CXX_SOURCE_FILES
          ${PROJECT_SOURCE_DIR}/main.c
-         ${PROJECT_SOURCE_DIR}/lib/utils/*.h
-         ${PROJECT_SOURCE_DIR}/lib/utils/*.c
+         ${PROJECT_SOURCE_DIR}/utils/*.h
+         ${PROJECT_SOURCE_DIR}/utils/*.c
          ${PROJECT_SOURCE_DIR}/lib/*.h
          ${PROJECT_SOURCE_DIR}/lib/*.c
          ${PROJECT_SOURCE_DIR}/unit_test/*.cpp
