@@ -7,12 +7,12 @@
 #include "stdio.h"
 
 typedef struct ECG {
-    int* signals_data;
-    size_t size;
-    size_t R_window;
+  int* signals_data;
+  size_t size;
+  size_t R_window;
 } ECG;
 
 bool create_ECG(ECG** ecg_p, FILE* stream);
 void delete_ecg(ECG* ecg);
 
-#endif //LIB_ECG_H_
+#endif  // LIB_ECG_H_

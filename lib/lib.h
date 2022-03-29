@@ -7,4 +7,4 @@
 
 size_t count_R_peaks(const ECG* ecg, size_t user_cores);
 
-#endif //LIB_LIB_H_
+#endif  // LIB_LIB_H_

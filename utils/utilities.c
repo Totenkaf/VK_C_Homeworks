@@ -1,5 +1,6 @@
 // Copyright 2022 by Artem Ustsov
 #include "utilities.h"
+
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
@@ -75,7 +76,8 @@ int input_number(FILE *stream) {
 }
 
 // creates a random sequence ECG for program and writes into .txt file
-bool create_random_sequence_file(const char *file_name, const size_t size, const size_t R_window) {
+bool create_random_sequence_file(const char *file_name, const size_t size,
+                                 const size_t R_window) {
   if (size < 1 || R_window < 1) {
     return false;
   }
@@ -89,7 +91,9 @@ bool create_random_sequence_file(const char *file_name, const size_t size, const
 
   fprintf(sequence, "%ld\n", size);
   for (size_t i = 0; i < size; ++i) {
-    int buf = (int)(random() % (LOWER_BOUND_OF_VALUES - TOP_BOUND_OF_VALUES + 1) + LOWER_BOUND_OF_VALUES);
+    int buf =
+        (int)(random() % (LOWER_BOUND_OF_VALUES - TOP_BOUND_OF_VALUES + 1) +
+              LOWER_BOUND_OF_VALUES);
     fprintf(sequence, "%d\n", buf);
   }
   fprintf(sequence, "%ld", R_window);
