@@ -5,7 +5,6 @@
 #include <sys/mman.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include "../utils/utilities.h"
 
 // Finds local extremums in ECG sequence
 static void findLocalMax(const int* signals_data, const size_t size, size_t* shared_memory,
@@ -80,7 +79,7 @@ size_t count_R_peaks(const ECG* ecg, const size_t user_cores) {
     if (pids[i] == 0) {
       // каждый процесс будет искать свой локальный экстремум
       findLocalMax(ecg->signals_data, ecg->size, shared_memory, size_column, i, count_processes);
-      exit(_EXIT_SUCCESS);
+      exit(EXIT_SUCCESS); // NOLINT
     }
   }
 
