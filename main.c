@@ -10,7 +10,7 @@
 
 enum exit_status {_EXIT_SUCCESS = 0, _EXIT_FAILURE};
 
-static FILE* get_keys_from_stream(long int* num_of_cores, FILE* stream, int argc, char* argv[]) {
+static FILE* get_stream(long int* user_cores, FILE* stream, int argc, char* argv[]) {
     long int input_mode = 0;
     int opt_idx = 0;
     int c = 0;
@@ -37,7 +37,7 @@ static FILE* get_keys_from_stream(long int* num_of_cores, FILE* stream, int argc
           break;
 
         case 'j':
-          *num_of_cores = strtol(optarg, NULL, BASIS); // NOLINT
+          *user_cores = strtol(optarg, NULL, BASIS); // NOLINT
           break;
 
         case '?':
@@ -68,8 +68,8 @@ static FILE* get_keys_from_stream(long int* num_of_cores, FILE* stream, int argc
 
 int main(int argc, char* argv[]) {
   FILE *stream = NULL;
-  long int num_of_cores = 0;
-  stream = get_keys_from_stream(&num_of_cores, stream, argc, argv);
+  size_t user_cores = 0;
+  stream = get_stream(&user_cores, stream, argc, argv);
   if(!stream) {
     return _EXIT_FAILURE;
   }
@@ -78,7 +78,7 @@ int main(int argc, char* argv[]) {
   bool success = create_ECG(&ecg, stream);
   if (success) {
       size_t result = 0;
-      result = count_R_peaks(ecg, num_of_cores);
+      result = count_R_peaks(ecg, user_cores);
       printf("Total count of R-extremums: %ld. {R-window = %ld}\n", result, ecg->R_window);
   }
   fclose(stream);

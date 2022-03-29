@@ -55,13 +55,14 @@ static size_t countLocalMax(const size_t* shared_memory, const size_t size_colum
   return count;
 }
 
-size_t count_R_peaks(const ECG* ecg, const long int num_of_cores) {
-  if (ecg == NULL || ecg->signals_data == NULL || ecg->size == 0 || num_of_cores == 0) {
+size_t count_R_peaks(const ECG* ecg, const size_t user_cores) {
+  if (ecg == NULL || ecg->signals_data == NULL || ecg->size == 0 || user_cores == 0) {
     return 0;
   }
 
-  size_t count_processes = num_of_cores > sysconf(_SC_NPROCESSORS_ONLN) ? 
-                           sysconf(_SC_NPROCESSORS_ONLN) : num_of_cores; // количество доступных процессоров, возможность задания пользователем
+  size_t sys_free_cores = (size_t)sysconf(_SC_NPROCESSORS_ONLN);
+  size_t count_processes = user_cores > sys_free_cores ? 
+                           sys_free_cores : user_cores; // количество доступных процессоров, возможность задания пользователем
   printf("Active cores: %ld\n", count_processes);
   pid_t pids[count_processes];
 
