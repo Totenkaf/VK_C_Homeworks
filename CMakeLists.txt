@@ -188,6 +188,7 @@ if(ENABLE_CPPCHECK)
             ${CMAKE_SOURCE_DIR}/unit_test/*.cpp
             ${CMAKE_SOURCE_DIR}/stress_test/*.c
             ${CMAKE_SOURCE_DIR}/stress_test/*.h
+            ${CMAKE_SOURCE_DIR}/main.c
     )
 
     add_custom_target(

@@ -140,6 +140,72 @@ TEST(ECG_TEST_2, CORRECT_INPUT) {
   delete_ecg(ecg);
 }
 
+TEST(UTILS_TEST_1, CREATE_SEQUENCE) {
+  const char* filename = "test.txt";
+  size_t size = 10;
+  size_t R_window = 2;
+  bool success = create_random_sequence_file(filename, size, R_window);
+  EXPECT_TRUE(success);
+  remove("test.txt");
+}
+
+TEST(UTILS_TEST_2, BAD_STREAM_SEQUENCE) {
+  const char* filename = nullptr;
+  size_t size = 10;
+  size_t R_window = 2;
+  bool success = create_random_sequence_file(filename, size, R_window);
+  EXPECT_FALSE(success);
+}
+
+TEST(UTILS_TEST_3, BAD_SIZE_SEQUENCE) {
+  const char* filename = "test.txt";;
+  size_t size = 0;
+  size_t R_window = 2;
+  bool success = create_random_sequence_file(filename, size, R_window);
+  EXPECT_FALSE(success);
+  remove("test.txt");
+}
+
+TEST(UTILS_TEST_4, BAD_R_WINDOW) {
+  const char* filename = "test.txt";;
+  size_t size = 10;
+  size_t R_window = 0;
+  bool success = create_random_sequence_file(filename, size, R_window);
+  EXPECT_FALSE(success);
+  remove("test.txt");
+}
+
+TEST(UTILS_TEST_5, GET_FILE_STREAM_STATIC) {
+  FILE* stream = nullptr;
+  size_t user_cores = 0;
+  int argc = 5;
+  char* argv[] = {(char*)"./ECG", 
+                  (char*)"-i1", 
+                  (char*)"test.txt", 
+                  (char*)"10", 
+                  (char*)"2"};
+  stream = get_stream(&user_cores, argc, argv);
+  EXPECT_TRUE(stream);
+  EXPECT_EQ(user_cores, 0);
+  fclose(stream);
+}
+
+// TEST(UTILS_TEST_6, GET_FILE_STREAM_PARALLEL) {
+//   FILE* stream = nullptr;
+//   size_t user_cores = 0;
+//   int argc = 6;
+//   char* argv[] = {(char*)"./ECG",
+//                   (char*)"-j4",
+//                   (char*)"-i1", 
+//                   (char*)"test.txt", 
+//                   (char*)"10", 
+//                   (char*)"2"};
+//   stream = get_stream(&user_cores, argc, argv);
+//   EXPECT_TRUE(stream);
+//   EXPECT_EQ(user_cores, 4);
+//   fclose(stream);
+// }
+
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

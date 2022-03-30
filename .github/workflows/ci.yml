@@ -238,6 +238,15 @@ jobs:
           cd unit_test
           sudo ./static_test
           cd ../../
+
+      - name: PARALLEL_LIB_TEST
+        run:  |
+          mkdir -p build && cd build
+          sudo cmake -DBUILD_PARALLEL=ON -DBUILD_TESTS=ON ..
+          sudo make
+          cd unit_test
+          sudo ./parallel_test
+          cd ../../
   
       - name: ADDRESS SANITIZER
         run: |

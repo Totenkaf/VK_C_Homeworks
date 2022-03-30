@@ -17,6 +17,7 @@ enum exit_status { _EXIT_SUCCESS = 0, _EXIT_FAILURE };
 
 bool create_random_sequence_file(const char *file_name, size_t size,
                                  size_t R_window);
+FILE* get_stream(size_t* user_cores, int argc, char* argv[]);
 char *input_string(FILE *stream);
 int input_number(FILE *stream);
 

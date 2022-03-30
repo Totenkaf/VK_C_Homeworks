@@ -1,9 +1,11 @@
 // Copyright 2022 by Artem Ustsov
 #include "utilities.h"
 
+#include <getopt.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <unistd.h>
 
 // Gets a chunk of data from stream and returns the correct string
 char *input_string(FILE *stream) {
@@ -99,4 +101,76 @@ bool create_random_sequence_file(const char *file_name, const size_t size,
   fprintf(sequence, "%ld", R_window);
   fclose(sequence);
   return true;
+}
+
+bool write_matrix_output_file(int *matrix, const size_t cols, const size_t rows,
+                              FILE *stream) {
+  if (!stream || !matrix || cols < 1 || rows < 1) {
+    return false;
+  }
+  for (size_t i = 0; i < cols * rows; ++i) {
+    if (i != cols * rows - 1) {
+      fprintf(stream, "%d\n", matrix[i]);
+    } else {
+      fprintf(stream, "%d", matrix[i]);
+    }
+  }
+  return true;
+}
+
+FILE* get_stream(size_t* user_cores, int argc, char* argv[]) {
+  FILE* stream = NULL;
+  size_t input_mode = 0;
+  int opt_idx = 0;
+  int c = 0;
+  struct option options[] = {{"input_mode", required_argument, NULL, 'i'},
+                             {"cores", required_argument, NULL, 'j'},
+                             {NULL, 0, NULL, 0}};
+  while ((c = getopt_long(argc, argv, ":j:i:", options, &opt_idx)) !=
+         -1) {  // NOLINT
+    switch (c) {
+      case 0:
+        printf("long option %s", options[opt_idx].name);
+        if (optarg) {
+          printf(" with arg %s", optarg);
+        }
+        printf("\n");
+        break;
+
+      case 1:
+        printf("non-option argument %s\n", optarg);
+        break;
+
+      case 'i':
+        input_mode = (size_t)strtol(optarg, NULL, BASIS);  // NOLINT
+        break;
+
+      case 'j':
+        *user_cores = (size_t)strtol(optarg, NULL, BASIS);  // NOLINT
+        break;
+
+      case '?':
+        printf("Unknown option %c\n", optopt);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  if (input_mode == 1) {
+    const char* filename = NULL;
+    filename = argv[optind++];
+    size_t size = (size_t)strtol(argv[optind++], NULL, BASIS);
+    size_t R_window = (size_t)strtol(argv[optind], NULL, BASIS);
+
+    bool success = create_random_sequence_file(filename, size, R_window);
+    if (!success) {
+      return NULL;
+    }
+    stream = fopen(filename, "r");
+  } else {
+    stream = stdin;
+  }
+  return stream;
 }

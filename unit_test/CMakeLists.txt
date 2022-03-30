@@ -18,7 +18,8 @@ set(CMAKE_CXX_STANDARD 11)
 include(CTest)
 find_package(GTest REQUIRED)
 set(input_test_src ${PROJECT_SOURCE_DIR}/input_test.cpp)
-set(func_test_src ${PROJECT_SOURCE_DIR}/func_test.cpp)
+set(static_test_src ${PROJECT_SOURCE_DIR}/static_test.cpp)
+set(parallel_test_src ${PROJECT_SOURCE_DIR}/parallel_test.cpp)
 
 # ------------------------------------------------------------------------------
 # 2 | Executables
@@ -26,20 +27,25 @@ set(func_test_src ${PROJECT_SOURCE_DIR}/func_test.cpp)
 add_executable(input_test ${input_test_src})
 target_include_directories(input_test PUBLIC ${LIB_INCLUDE_DIRS} ${UTILS_INCLUDE_DIRS})
 
-add_executable(func_test ${func_test_src})
-target_include_directories(func_test PUBLIC ${LIB_INCLUDE_DIRS} ${UTILS_INCLUDE_DIRS})
-
 option(BUILD_PARALLEL "USING SHARED LIBRARY" OFF) # By default PARALLEL is OFF.
 if(BUILD_PARALLEL)
+    add_executable(parallel_test ${parallel_test_src})
+    target_include_directories(parallel_test PUBLIC ${LIB_INCLUDE_DIRS} ${UTILS_INCLUDE_DIRS})
     target_link_libraries(input_test ${LIB_PARALLEL_LIBRARIES} ${UTILS_LIBRARIES})
-    target_link_libraries(func_test ${LIB_PARALLEL_LIBRARIES} ${UTILS_LIBRARIES})
+    target_link_libraries(parallel_test ${LIB_PARALLEL_LIBRARIES} ${UTILS_LIBRARIES})
+    target_link_libraries(input_test ${GTEST_LIBRARIES} -pthread)
+    target_link_libraries(parallel_test ${GTEST_LIBRARIES} -pthread)
 else()
+    add_executable(static_test ${static_test_src})
+    target_include_directories(static_test PUBLIC ${LIB_INCLUDE_DIRS} ${UTILS_INCLUDE_DIRS})
     target_link_libraries(input_test ${LIB_STATIC_LIBRARIES} ${UTILS_LIBRARIES})
-    target_link_libraries(func_test ${LIB_STATIC_LIBRARIES} ${UTILS_LIBRARIES})
+    target_link_libraries(static_test ${LIB_STATIC_LIBRARIES} ${UTILS_LIBRARIES})
+    target_link_libraries(input_test ${GTEST_LIBRARIES} -pthread)
+    target_link_libraries(static_test ${GTEST_LIBRARIES} -pthread)
 endif()
 
-target_link_libraries(input_test ${GTEST_LIBRARIES} -pthread)
-target_link_libraries(func_test ${GTEST_LIBRARIES} -pthread)
+
+
 
 
 # ==============================================================================
