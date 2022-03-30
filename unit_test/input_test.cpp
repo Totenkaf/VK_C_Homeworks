@@ -141,7 +141,7 @@ TEST(ECG_TEST_2, CORRECT_INPUT) {
 }
 
 TEST(UTILS_TEST_1, CREATE_SEQUENCE) {
-  const char* filename = "test.txt";
+  const char *filename = "test.txt";
   size_t size = 10;
   size_t R_window = 2;
   bool success = create_random_sequence_file(filename, size, R_window);
@@ -150,7 +150,7 @@ TEST(UTILS_TEST_1, CREATE_SEQUENCE) {
 }
 
 TEST(UTILS_TEST_2, BAD_STREAM_SEQUENCE) {
-  const char* filename = nullptr;
+  const char *filename = nullptr;
   size_t size = 10;
   size_t R_window = 2;
   bool success = create_random_sequence_file(filename, size, R_window);
@@ -158,7 +158,8 @@ TEST(UTILS_TEST_2, BAD_STREAM_SEQUENCE) {
 }
 
 TEST(UTILS_TEST_3, BAD_SIZE_SEQUENCE) {
-  const char* filename = "test.txt";;
+  const char *filename = "test.txt";
+  ;
   size_t size = 0;
   size_t R_window = 2;
   bool success = create_random_sequence_file(filename, size, R_window);
@@ -167,7 +168,8 @@ TEST(UTILS_TEST_3, BAD_SIZE_SEQUENCE) {
 }
 
 TEST(UTILS_TEST_4, BAD_R_WINDOW) {
-  const char* filename = "test.txt";;
+  const char *filename = "test.txt";
+  ;
   size_t size = 10;
   size_t R_window = 0;
   bool success = create_random_sequence_file(filename, size, R_window);
@@ -176,14 +178,11 @@ TEST(UTILS_TEST_4, BAD_R_WINDOW) {
 }
 
 TEST(UTILS_TEST_5, GET_FILE_STREAM_STATIC) {
-  FILE* stream = nullptr;
+  FILE *stream = nullptr;
   size_t user_cores = 0;
   int argc = 5;
-  char* argv[] = {(char*)"./ECG", 
-                  (char*)"-i1", 
-                  (char*)"test.txt", 
-                  (char*)"10", 
-                  (char*)"2"};
+  char *argv[] = {(char *)"./ECG", (char *)"-i1", (char *)"test.txt",
+                  (char *)"10", (char *)"2"};
   stream = get_stream(&user_cores, argc, argv);
   EXPECT_TRUE(stream);
   EXPECT_EQ(user_cores, 0);
@@ -196,9 +195,9 @@ TEST(UTILS_TEST_5, GET_FILE_STREAM_STATIC) {
 //   int argc = 6;
 //   char* argv[] = {(char*)"./ECG",
 //                   (char*)"-j4",
-//                   (char*)"-i1", 
-//                   (char*)"test.txt", 
-//                   (char*)"10", 
+//                   (char*)"-i1",
+//                   (char*)"test.txt",
+//                   (char*)"10",
 //                   (char*)"2"};
 //   stream = get_stream(&user_cores, argc, argv);
 //   EXPECT_TRUE(stream);

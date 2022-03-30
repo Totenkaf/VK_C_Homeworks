@@ -1,6 +1,7 @@
 // Copyright 2022 by Artem Ustsov
 
 #include <stdlib.h>
+
 #include "lib.h"
 
 // Count R extremums and ECG sequence

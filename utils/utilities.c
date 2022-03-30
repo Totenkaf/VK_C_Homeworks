@@ -80,7 +80,7 @@ int input_number(FILE *stream) {
 // creates a random sequence ECG for program and writes into .txt file
 bool create_random_sequence_file(const char *file_name, const size_t size,
                                  const size_t R_window) {
-  if (size < 1 || R_window < 1) {
+  if (!file_name || size < 1 || R_window < 1) {
     return false;
   }
 
@@ -103,23 +103,8 @@ bool create_random_sequence_file(const char *file_name, const size_t size,
   return true;
 }
 
-bool write_matrix_output_file(int *matrix, const size_t cols, const size_t rows,
-                              FILE *stream) {
-  if (!stream || !matrix || cols < 1 || rows < 1) {
-    return false;
-  }
-  for (size_t i = 0; i < cols * rows; ++i) {
-    if (i != cols * rows - 1) {
-      fprintf(stream, "%d\n", matrix[i]);
-    } else {
-      fprintf(stream, "%d", matrix[i]);
-    }
-  }
-  return true;
-}
-
-FILE* get_stream(size_t* user_cores, int argc, char* argv[]) {
-  FILE* stream = NULL;
+FILE *get_stream(size_t *user_cores, int argc, char *argv[]) {
+  FILE *stream = NULL;
   size_t input_mode = 0;
   int opt_idx = 0;
   int c = 0;
@@ -159,7 +144,7 @@ FILE* get_stream(size_t* user_cores, int argc, char* argv[]) {
   }
 
   if (input_mode == 1) {
-    const char* filename = NULL;
+    const char *filename = NULL;
     filename = argv[optind++];
     size_t size = (size_t)strtol(argv[optind++], NULL, BASIS);
     size_t R_window = (size_t)strtol(argv[optind], NULL, BASIS);

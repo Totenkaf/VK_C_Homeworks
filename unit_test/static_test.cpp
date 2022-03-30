@@ -23,7 +23,6 @@ TEST(STATIC_LIB_TEST_1, BAD_CORES) {
   EXPECT_EQ(result, 0);
 }
 
-
 TEST(STATIC_LIB_TEST_3, UNIQUE_PEAK_AND_WINDOW) {
   int sequence[] = {1, 2, 3, 2, 1};
   ECG ecg = {.signals_data = sequence, .size = 5, .R_window = 1};

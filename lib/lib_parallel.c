@@ -78,7 +78,6 @@ size_t count_R_peaks(const ECG* ecg, const size_t user_cores) {
           ? sys_free_cores
           : user_cores;  // количество доступных процессоров, возможность
                          // задания пользователем
-  printf("Active cores: %ld\n", count_processes);
   pid_t pids[count_processes];
 
   // каждый новый процесс будет интерпретироваться как столбец матрицы

@@ -251,8 +251,21 @@ endif()
 # ==============================================================================
 # IV | Tests
 # ==============================================================================
-option(BUILD_TESTS "Build all tests." OFF) # Makes boolean 'test' available.
 
-if (BUILD_TESTS)
+# ------------------------------------------------------------------------------
+# 1 | Stress tests
+# ------------------------------------------------------------------------------
+
+option(BUILD_STRESS_TEST "Build all tests." OFF) # Makes boolean 'stress_test' available.
+if(BUILD_STRESS_TEST)
+  add_subdirectory(stress_test)
+endif()
+
+# ------------------------------------------------------------------------------
+# 2 | Unit tests
+# ------------------------------------------------------------------------------
+option(BUILD_TESTS "Build all tests." OFF) # Makes boolean 'unit_test' available.
+
+if(BUILD_TESTS)
   add_subdirectory(unit_test)
 endif()

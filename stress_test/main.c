@@ -1,97 +1,65 @@
 // Copyright 2021 Artem Ustsov
-#include "matrix.h"
-#include "stress_test_utils.h"
-#include "utils.h"
-
 #include <stdlib.h>
 #include <string.h>
 
-int main(int argc, char **argv) {
-  size_t number_of_iterations = DEFAULT_NUMBER_OF_ITERATIONS;
-  if (argc < 5) {
-    return EXIT_FAILURE;
+#include "../lib/lib.h"
+#include "../utils/utilities.h"
+#include "stress_test.h"
+
+int main(int argc, char* argv[]) {
+  const size_t number_of_iterations = DEFAULT_NUMBER_OF_ITERATIONS;
+  FILE* stream = NULL;
+  size_t user_cores = 0;
+  stream = get_stream(&user_cores, argc, argv);
+  if (!stream) {
+    return _EXIT_FAILURE;
   }
 
-  int cols = (int)strtol(argv[1], NULL, BASIS);
-  int rows = (int)strtol(argv[2], NULL, BASIS);
+  ECG* ecg = NULL;
+  bool success = create_ECG(&ecg, stream);
 
-  if (cols < 1 || rows < 1) {
-    return EXIT_FAILURE;
-  }
+  if (success) {
+    double time_avg = 0;
+    double time_min = RAND_MAX;
+    double time_max = 0;
+    size_t result = 0;
 
-  const char *filename = argv[3];
-  if (!filename) {
-    return EXIT_FAILURE;
-  }
+    for (size_t i = 0; i < number_of_iterations; ++i) {
+      double time = get_time();
+      result = count_R_peaks(ecg, user_cores);
+      time = get_time() - time;
 
-  int *matrix = (int *)calloc(rows * cols, sizeof(int));
-  if (!matrix) {
-    return EXIT_FAILURE;
-  }
-
-  FILE *fd = fopen(filename, "r");
-  if (!fd) {
-    free(matrix);
-    return EXIT_FAILURE;
-  }
-
-  if (!create_matrix(matrix, &cols, &rows, fd)) {
-    free(matrix);
-    return EXIT_FAILURE;
-  }
-  fclose(fd);
-
-  double time_avg = 0;
-  double time_min = RAND_MAX;
-  double time_max = 0;
-  bool errflag = false;
-
-  for (size_t i = 0; i < number_of_iterations; ++i) {
-    double time = get_time();
-    if (!serial_side_matrix_reflection(matrix, cols, rows)) {
-      errflag = true;
-      break;
+      if (time < time_min) {
+        time_min = time;
+      }
+      if (time > time_max) {
+        time_max = time;
+      }
+      time_avg += time;
     }
-    time = get_time() - time;
 
-    if (time < time_min) {
-      time_min = time;
-    }
-    if (time > time_max) {
-      time_max = time;
-    }
-    time_avg += time;
-  }
-  if (errflag) {
-    free(matrix);
-    return EXIT_FAILURE;
-  }
-  time_avg = time_avg / number_of_iterations;
-  time_stat stat = {.iterations = number_of_iterations,
-                    .min = time_min,
-                    .max = time_max,
-                    .avg = time_avg,
-                    .matrix_rows = rows,
-                    .matrix_cols = cols};
-  save_stat(stat, "statistic.txt");
+    time_avg = time_avg / number_of_iterations;
+    time_stat stat = {.iterations = number_of_iterations,
+                      .min = time_min,
+                      .max = time_max,
+                      .avg = time_avg,
+                      .sequence_size = ecg->size};
 
-  const char *output_file = argv[4];
-  if (!output_file) {
-    return EXIT_FAILURE;
-  }
-  if (strcmp(output_file, "write_off") != 0) {
-    FILE *outfd = fopen(output_file, "w+");
+    save_stat(stat, result, "statistic.txt");
+    const char* output_file = "result.txt";
+    FILE* outfd = fopen(output_file, "w+");
     if (!outfd) {
-      free(matrix);
-      return EXIT_FAILURE;
+      delete_ecg(ecg);
+      return _EXIT_FAILURE;
     }
-    if (!write_matrix_output_file(matrix, cols, rows, outfd)) {
-      free(matrix);
+
+    if (!write_sequence_output_file(ecg->signals_data, ecg->size, ecg->R_window,
+                                    outfd)) {
+      delete_ecg(ecg);
       fclose(outfd);
     }
     fclose(outfd);
   }
-
-  free(matrix);
-  return EXIT_SUCCESS;
+  delete_ecg(ecg);
+  return _EXIT_SUCCESS;
 }
