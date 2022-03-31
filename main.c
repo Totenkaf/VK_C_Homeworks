@@ -18,10 +18,10 @@ int main(int argc, char* argv[]) {
   bool success = create_ECG(&ecg, stream);
   if (success) {
     size_t result = 0;
-    printf("Active cores: %ld\n", user_cores);
     result = count_R_peaks(ecg, user_cores);
     printf("Total count of R-extremums: %ld. {R-window = %ld}\n", result,
            ecg->R_window);
+    printf("Active cores: %ld\n", user_cores);
   }
   fclose(stream);
   delete_ecg(ecg);

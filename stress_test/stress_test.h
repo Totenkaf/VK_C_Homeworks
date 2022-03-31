@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <time.h>
 
-#define DEFAULT_NUMBER_OF_ITERATIONS 1000
+#define DEFAULT_NUMBER_OF_ITERATIONS 100
 #define MS_IN_SEC 1e3
 #define NS_IN_MS 1e6
 #define MAX_NUMBER_OF_POSSIBLE_VALUES 100

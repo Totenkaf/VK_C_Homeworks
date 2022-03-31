@@ -89,93 +89,99 @@ jobs:
           sudo make infer
           cd ../
 
-  # building:
-  #   runs-on: ubuntu-latest
-  #   needs: [checking]
-  #   steps:
+  building:
+    runs-on: ubuntu-latest
+    needs: [checking]
+    steps:
 
-  #     - uses: actions/checkout@v2
-  #     - name: WORKING DIRECTORY
-  #       run: pwd
+      - uses: actions/checkout@v2
+      - name: WORKING DIRECTORY
+        run: pwd
 
-  #     - name: INSTALL GCC
-  #       run: |
-  #         sudo apt-get update && sudo apt-get install -y gcc g++
-  #         which gcc
+      - name: INSTALL GCC
+        run: |
+          sudo apt-get update && sudo apt-get install -y gcc g++
+          which gcc
 
-  #     - name: INSTALL CMAKE
-  #       run: |
-  #         sudo apt-get update && sudo apt-get install -y cmake
-  #         which cmake
+      - name: INSTALL CMAKE
+        run: |
+          sudo apt-get update && sudo apt-get install -y cmake
+          which cmake
 
-  #     - name: INSTALL VALGRIND
-  #       run: |
-  #         sudo apt-get update && sudo apt-get install -y valgrind
-  #         which valgrind
+      - name: INSTALL VALGRIND
+        run: |
+          sudo apt-get update && sudo apt-get install -y valgrind
+          which valgrind
 
-#       - name: RUN MAIN PROGRAMM_1
-#         run: |
-#           mkdir -p build && cd build
-#           sudo cmake ..
-#           sudo make
-#           FILE_NAME_1="../src/catalog.txt"
-#           FILE_NAME_2="../src/persons.txt"
-#           ./book_catalog -po -i1 ${FILE_NAME_1} ${FILE_NAME_2}
-#           cd ../
 
-#       - name: RUN MAIN PROGRAMM_2
-#         run: |
-#           mkdir -p build && cd build
-#           sudo cmake ..
-#           sudo make
-#           FILE_NAME_1="../src/catalog.txt"
-#           FILE_NAME_2="../src/persons.txt"
-#           sudo ./book_catalog -p1 -i1 ${FILE_NAME_1} ${FILE_NAME_2}
-#           cd ../
+      - name: RUN VALGRIND PROGRAMM_STATIC LIB_FILEINPUT
+        run: |
+          mkdir -p build && cd build
+          sudo cmake -DBUILD_PARALLEL=OFF
+          sudo make
+          INPUT_KEY=-i1
+          DATA_FILENAME="data.txt"
+          SEQUENCE_SIZE=1000
+          R_WINDOW=15
+          sudo valgrind --tool=memcheck --leak-check=full --leak-resolution=med ./ECG -i1 ${DATA_FILENAME} ${SEQUENCE_SIZE} ${R_WINDOW}
+          cd ../
 
-#       - name: RUN MAIN PROGRAMM_1
-#         run: |
-#           mkdir -p build && cd build
-#           sudo cmake ..
-#           sudo make
-#           FILE_NAME_1="../src/catalog.txt"
-#           FILE_NAME_2="../src/persons.txt"
-#           ./book_catalog -po -i1 ${FILE_NAME_1} ${FILE_NAME_2}
-#           cd ../
+      - name: RUN VALGRIND PROGRAMM_STATIC LIB_STANDARDINPUT
+        run: |
+          mkdir -p build && cd build
+          sudo cmake -DBUILD_PARALLEL=OFF
+          sudo make
+          INPUT_KEY=-i0
+          sudo valgrind --tool=memcheck --leak-check=full --leak-resolution=med ./ECG ${INPUT_KEY}
+          3
+          1
+          2
+          3
+          2
+          cd ../
 
-#       - name: RUN MAIN PROGRAMM_2
-#         run: |
-#           mkdir -p build && cd build
-#           sudo cmake ..
-#           sudo make
-#           FILE_NAME_1="../src/catalog.txt"
-#           FILE_NAME_2="../src/persons.txt"
-#           sudo ./book_catalog -p1 -i1 ${FILE_NAME_1} ${FILE_NAME_2}
-#           cd ../
+      - name: RUN VALGRIND PROGRAMM_PARALLEL LIB_FILEINPUT_4 CORES
+        run: |
+          mkdir -p build && cd build
+          sudo cmake -DBUILD_PARALLEL=ON ..
+          sudo make
+          INPUT_KEY=-i1
+          CORES_KEY=-j14
+          DATA_FILENAME="data.txt"
+          SEQUENCE_SIZE=1000
+          R_WINDOW=15
+          sudo valgrind --tool=memcheck --leak-check=full --leak-resolution=med ./ECG ${INPUT_KEY} ${CORES_KEY} ${DATA_FILENAME} ${SEQUENCE_SIZE} ${R_WINDOW}
+          cd ../
 
-#       - name: RUN VALGRIND MAIN PROGRAMM_1
-#         run: |
-#           mkdir -p build && cd build
-#           sudo cmake ..
-#           sudo make
-#           FILE_NAME_1="../src/catalog.txt"
-#           FILE_NAME_2="../src/persons.txt"
-#           sudo valgrind --tool=memcheck --leak-check=full --leak-resolution=med ./book_catalog -p1 -i1 ${FILE_NAME_1} ${FILE_NAME_2}
-#           cd ../
+      - name: RUN VALGRIND PROGRAMM_PARALLEL LIB_FILEINPUT_8 CORES
+        run: |
+          mkdir -p build && cd build
+          sudo cmake ..
+          sudo make
+          INPUT_KEY=-i1
+          CORES_KEY=-j8
+          DATA_FILENAME="data.txt"
+          SEQUENCE_SIZE=1000
+          R_WINDOW=15
+          sudo valgrind --tool=memcheck --leak-check=full --leak-resolution=med ./ECG ${INPUT_KEY} ${CORES_KEY} ${DATA_FILENAME} ${SEQUENCE_SIZE} ${R_WINDOW}
+          cd ../
 
-#       - name: RUN VALGRIND MAIN PROGRAMM_2
-#         run: |
-#           mkdir -p build && cd build
-#           sudo cmake ..
-#           sudo make
-#           FILE_NAME_1="../src/catalog.txt"
-#           FILE_NAME_2="../src/persons.txt"
-#           sudo valgrind --tool=memcheck --leak-check=full --leak-resolution=med ./book_catalog -p1 -i1 ${FILE_NAME_1} ${FILE_NAME_2}
-#           cd ../
+      - name: RUN VALGRIND PROGRAMM_PARALLEL LIB_FILEINPUT_10 CORES
+        run: |
+          mkdir -p build && cd build
+          sudo cmake ..
+          sudo make
+          INPUT_KEY=-i1
+          CORES_KEY=-j10
+          DATA_FILENAME="data.txt"
+          SEQUENCE_SIZE=1000
+          R_WINDOW=15
+          sudo valgrind --tool=memcheck --leak-check=full --leak-resolution=med ./ECG ${INPUT_KEY} ${CORES_KEY} ${DATA_FILENAME} ${SEQUENCE_SIZE} ${R_WINDOW}
+          cd ../
 
   testing:
     runs-on: ubuntu-latest
-    # needs: [building]
+    needs: [building]
     steps:
 
       - uses: actions/checkout@v2
@@ -269,15 +275,6 @@ jobs:
           sudo ./static_test
           cd ../../
 
-      - name: RUN VALGRIND PROGRAM_STATIC LIB
-        run: |
-          mkdir -p build && cd build
-          pwd
-          sudo cmake -DBUILD_PARALLEL=OFF ..
-          sudo make
-          sudo valgrind ./ECG -i1 data.txt 1000 20
-          cd ../../
-
       # - name: PARALLEL_LIB_UNIT_TEST
       #   run:  |
       #     mkdir -p build && cd build
@@ -342,9 +339,9 @@ jobs:
           R_WINDOW=115
           sudo valgrind ./stress_test ${INPUT_KEY} ${DATA_FILENAME} ${SEQUENCE_SIZE} ${R_WINDOW}
           cat ${STATISTIC_FILENAME}
-          rm ${STATISTIC_FILENAME}
-          rm ${DATA_FILENAME}
-          rm result.txt
+          sudo rm ${STATISTIC_FILENAME}
+          sudo rm ${DATA_FILENAME}
+          sudo rm result.txt
           cd ../../
 
       # - uses: codecov/codecov-action@v2
