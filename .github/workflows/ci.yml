@@ -284,8 +284,8 @@ jobs:
           sudo cmake -DBUILD_TESTS=ON -DBUILD_PARALLEL=OFF ..
           sudo make
           cd unit_test
-          sudo valgrind --tool=memcheck --leak-check=full --leak-resolution=med ./input_test
-          sudo valgrind --tool=memcheck --leak-check=full --leak-resolution=med ./static_test
+          sudo valgrind ./input_test
+          sudo valgrind ./static_test
           cd ../../
 
       # - uses: codecov/codecov-action@v2
