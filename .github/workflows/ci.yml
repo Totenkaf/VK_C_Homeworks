@@ -126,20 +126,6 @@ jobs:
           sudo valgrind --tool=memcheck --leak-check=full --leak-resolution=med ./ECG -i1 ${DATA_FILENAME} ${SEQUENCE_SIZE} ${R_WINDOW}
           cd ../
 
-      - name: RUN VALGRIND PROGRAMM_STATIC LIB_STANDARDINPUT
-        run: |
-          mkdir -p build && cd build
-          sudo cmake -DBUILD_PARALLEL=OFF ..
-          sudo make
-          INPUT_KEY=-i0
-          sudo valgrind --tool=memcheck --leak-check=full --leak-resolution=med ./ECG ${INPUT_KEY}
-          3
-          1
-          2
-          3
-          2
-          cd ../
-
       - name: RUN VALGRIND PROGRAMM_PARALLEL LIB_FILEINPUT_4 CORES
         run: |
           mkdir -p build && cd build
