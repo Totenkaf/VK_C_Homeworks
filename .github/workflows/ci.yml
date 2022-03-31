@@ -235,7 +235,7 @@ jobs:
           sudo ./input_test
           cd ../
 
-      - name: STATIC_LIB_UNIT_TEST
+      - name: STATIC LIB_UNIT_TEST
         run:  |
           mkdir -p build && cd build
           sudo cmake -DBUILD_PARALLEL=OFF -DBUILD_TESTS=ON ..
@@ -334,7 +334,7 @@ jobs:
           INPUT_KEY=-i1
           DATA_FILENAME=data.txt
           STATISTIC_FILENAME=statistic.txt
-          SEQUENCE_SIZE=100000000
+          SEQUENCE_SIZE=100000
           R_WINDOW=115
           sudo valgrind ./stress_test ${INPUT_KEY} ${DATA_FILENAME} ${SEQUENCE_SIZE} ${R_WINDOW}
           cat ${STATISTIC_FILENAME}
@@ -342,6 +342,64 @@ jobs:
           sudo rm ${DATA_FILENAME}
           sudo rm result.txt
           cd ../../
+
+      - name: STRESS TESTS_PARALLEL LIB_4 CORES
+        run: |
+          mkdir -p build && cd build
+          sudo cmake -DBUILD_STRESS_TEST=ON -DBUILD_PARALLEL=ON ..
+          sudo make
+          cd stress_test
+          INPUT_KEY=-i1
+          CORE_KEY=-j4
+          DATA_FILENAME=data.txt
+          STATISTIC_FILENAME=statistic.txt
+          SEQUENCE_SIZE=100000
+          R_WINDOW=115
+          sudo valgrind ./stress_test ${INPUT_KEY} ${CORE_KEY} ${DATA_FILENAME} ${SEQUENCE_SIZE} ${R_WINDOW}
+          cat ${STATISTIC_FILENAME}
+          sudo rm ${STATISTIC_FILENAME}
+          sudo rm ${DATA_FILENAME}
+          sudo rm result.txt
+          cd ../../
+
+      - name: STRESS TESTS_PARALLEL LIB_8 CORES
+        run: |
+          mkdir -p build && cd build
+          sudo cmake -DBUILD_STRESS_TEST=ON -DBUILD_PARALLEL=ON ..
+          sudo make
+          cd stress_test
+          INPUT_KEY=-i1
+          CORE_KEY=-j8
+          DATA_FILENAME=data.txt
+          STATISTIC_FILENAME=statistic.txt
+          SEQUENCE_SIZE=100000
+          R_WINDOW=115
+          sudo valgrind ./stress_test ${INPUT_KEY} ${CORE_KEY} ${DATA_FILENAME} ${SEQUENCE_SIZE} ${R_WINDOW}
+          cat ${STATISTIC_FILENAME}
+          sudo rm ${STATISTIC_FILENAME}
+          sudo rm ${DATA_FILENAME}
+          sudo rm result.txt
+          cd ../../
+
+      - name: STRESS TESTS_PARALLEL LIB_16 CORES
+        run: |
+          mkdir -p build && cd build
+          sudo cmake -DBUILD_STRESS_TEST=ON -DBUILD_PARALLEL=ON ..
+          sudo make
+          cd stress_test
+          INPUT_KEY=-i1
+          CORE_KEY=-j16
+          DATA_FILENAME=data.txt
+          STATISTIC_FILENAME=statistic.txt
+          SEQUENCE_SIZE=100000
+          R_WINDOW=115
+          sudo valgrind ./stress_test ${INPUT_KEY} ${CORE_KEY} ${DATA_FILENAME} ${SEQUENCE_SIZE} ${R_WINDOW}
+          cat ${STATISTIC_FILENAME}
+          sudo rm ${STATISTIC_FILENAME}
+          sudo rm ${DATA_FILENAME}
+          sudo rm result.txt
+          cd ../../          
+
 
       # - uses: codecov/codecov-action@v2
       # - name: CODE COVERAGE
