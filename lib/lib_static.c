@@ -1,16 +1,15 @@
 // Copyright 2022 by Artem Ustsov
 
 #include <stdlib.h>
-
 #include "lib.h"
 
 // Count R extremums and ECG sequence
-size_t count_R_peaks(const ECG* ecg, size_t* const user_cores) {
+size_t count_R_peaks(const ECG* ecg, size_t* user_cores) {
   if (ecg == NULL || ecg->signals_data == NULL || ecg->size == 0 ||
       *user_cores != 0) {
     return 0;
   }
-
+  user_cores = -1;
   bool end_status = false;
   size_t count = 0;
   size_t i = 1;
