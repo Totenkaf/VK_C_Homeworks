@@ -159,7 +159,6 @@ TEST(UTILS_TEST_2, BAD_STREAM_SEQUENCE) {
 
 TEST(UTILS_TEST_3, BAD_SIZE_SEQUENCE) {
   const char *filename = "test.txt";
-  ;
   size_t size = 0;
   size_t R_window = 2;
   bool success = create_random_sequence_file(filename, size, R_window);
@@ -169,7 +168,6 @@ TEST(UTILS_TEST_3, BAD_SIZE_SEQUENCE) {
 
 TEST(UTILS_TEST_4, BAD_R_WINDOW) {
   const char *filename = "test.txt";
-  ;
   size_t size = 10;
   size_t R_window = 0;
   bool success = create_random_sequence_file(filename, size, R_window);
