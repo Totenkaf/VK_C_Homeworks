@@ -86,6 +86,7 @@ size_t count_R_peaks(const ECG* ecg, const size_t user_cores) {
       (size_t*)mmap(NULL, size_column * count_processes * sizeof(size_t),
                     PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1,
                     0);  // будем делиться памятью между процессами
+  printf("Active cores: %ld\n", count_processes);
   if (shared_memory == MAP_FAILED) {
     return 0;
   }
