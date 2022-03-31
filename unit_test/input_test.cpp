@@ -107,37 +107,37 @@ TEST(INPUT_TEST_6, INPUT_WRONG_NUMBER) {
 //   EXPECT_FALSE(success);
 // }
 
-TEST(ECG_TEST_2, CORRECT_INPUT) {
-  std::ofstream test_file;
+// TEST(ECG_TEST_2, CORRECT_INPUT) {
+//   std::ofstream test_file;
 
-  size_t sequence_size = 12;
-  int input_sequence[sequence_size] = {10, -20, 10, 6, 9,   7,
-                                       -9, 8,   0,  1, -50, 3};
-  test_file.open("test.txt");
-  for (size_t i = 0; i < sequence_size; ++i) {
-    test_file << input_sequence[i] << std::endl;
-  }
-  test_file.close();
+//   size_t sequence_size = 12;
+//   int input_sequence[sequence_size] = {10, -20, 10, 6, 9,   7,
+//                                        -9, 8,   0,  1, -50, 3};
+//   test_file.open("test.txt");
+//   for (size_t i = 0; i < sequence_size; ++i) {
+//     test_file << input_sequence[i] << std::endl;
+//   }
+//   test_file.close();
 
-  int test_signals_data[] = {-20, 10, 6, 9, 7, -9, 8, 0, 1, -50};
-  ECG test_ecg = {.signals_data = test_signals_data, .size = 10, .R_window = 3};
+//   int test_signals_data[] = {-20, 10, 6, 9, 7, -9, 8, 0, 1, -50};
+//   ECG test_ecg = {.signals_data = test_signals_data, .size = 10, .R_window = 3};
 
-  FILE *test_input = fopen("test.txt", "r");
-  ECG *ecg = NULL;
+//   FILE *test_input = fopen("test.txt", "r");
+//   ECG *ecg = NULL;
 
-  bool success = create_ECG(&ecg, test_input);
-  EXPECT_TRUE(success);
-  fclose(test_input);
-  remove("test.txt");
+//   bool success = create_ECG(&ecg, test_input);
+//   EXPECT_TRUE(success);
+//   fclose(test_input);
+//   remove("test.txt");
 
-  EXPECT_EQ(ecg->size, test_ecg.size);
-  EXPECT_EQ(ecg->R_window, test_ecg.R_window);
+//   EXPECT_EQ(ecg->size, test_ecg.size);
+//   EXPECT_EQ(ecg->R_window, test_ecg.R_window);
 
-  for (size_t i = 0; i < ecg->size; ++i) {
-    EXPECT_EQ(ecg->signals_data[i], test_ecg.signals_data[i]);
-  }
-  delete_ecg(ecg);
-}
+//   for (size_t i = 0; i < ecg->size; ++i) {
+//     EXPECT_EQ(ecg->signals_data[i], test_ecg.signals_data[i]);
+//   }
+//   delete_ecg(ecg);
+// }
 
 // TEST(UTILS_TEST_1, CREATE_SEQUENCE) {
 //   const char *filename = "test.txt";
