@@ -9,7 +9,7 @@ size_t count_R_peaks(const ECG* ecg, size_t* user_cores) {
       *user_cores != 0) {
     return 0;
   }
-  user_cores = 0;
+  *user_cores = 0;
   bool end_status = false;
   size_t count = 0;
   size_t i = 1;
