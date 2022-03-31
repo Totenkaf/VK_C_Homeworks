@@ -1,8 +1,6 @@
 // Copyright 2022 by Artem Ustsov
 #include "ECG.h"
-
 #include <stdlib.h>
-
 #include "../utils/utilities.h"
 
 // Allocates memory in heap to ECG sequence

@@ -281,11 +281,11 @@ jobs:
       - name: RUN VALGRIND TESTS_STATIC LIB
         run: |
           mkdir -p build && cd build
+          pwd
           sudo cmake -DBUILD_TESTS=ON -DBUILD_PARALLEL=OFF ..
           sudo make
           cd unit_test
-          sudo valgrind ./input_test
-          sudo valgrind ./static_test
+          pwd
           cd ../../
 
       # - uses: codecov/codecov-action@v2
