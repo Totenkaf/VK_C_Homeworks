@@ -239,15 +239,6 @@ jobs:
           sudo ./static_test
           cd ../../
 
-      - name: PARALLEL_LIB_UNIT_TEST
-        run:  |
-          mkdir -p build && cd build
-          sudo cmake -DBUILD_PARALLEL=ON -DBUILD_TESTS=ON ..
-          sudo make
-          cd unit_test
-          sudo ./parallel_test
-          cd ../../
-  
       - name: ADDRESS SANITIZER_STATIC LIB
         run: |
           mkdir -p build && cd build
@@ -289,6 +280,59 @@ jobs:
           sudo valgrind ./input_test
           sudo valgrind ./static_test
           cd ../../
+
+      # - name: PARALLEL_LIB_UNIT_TEST
+      #   run:  |
+      #     mkdir -p build && cd build
+      #     sudo cmake -DBUILD_PARALLEL=ON -DBUILD_TESTS=ON ..
+      #     sudo make
+      #     cd unit_test
+      #     sudo ./parallel_test
+      #     cd ../../
+
+      # - name: ADDRESS SANITIZER_PARALLEL LIB
+      #   run: |
+      #     mkdir -p build && cd build
+      #     sudo cmake -DBUILD_PARALLEL=ON -DBUILD_TESTS=ON -DENABLE_ASAN=ON -DENABLE_USAN=OFF -DENABLE_TSAN=OFF ..
+      #     sudo make
+      #     cd unit_test
+      #     sudo ./input_test
+      #     sudo ./parallel_test
+      #     cd ../../
+
+      # - name: UNDEFINED SANITIZER_PARALLEL LIB
+      #   run: |
+      #     mkdir -p build && cd build
+      #     sudo cmake -DBUILD_PARALLEL=ON -DBUILD_TESTS=ON -DENABLE_ASAN=OFF -DENABLE_USAN=ON -DENABLE_TSAN=OFF ..
+      #     sudo make
+      #     cd unit_test
+      #     sudo ./input_test
+      #     sudo ./parallel_test
+      #     cd ../../
+
+      # - name: THREAD SANITIZER_PARALLEL LIB
+      #   run: |
+      #     mkdir -p build && cd build
+      #     sudo cmake -DBUILD_PARALLEL=ON -DBUILD_TESTS=ON -DENABLE_ASAN=OFF -DENABLE_USAN=OFF -DENABLE_TSAN=ON ..
+      #     sudo make
+      #     cd unit_test
+      #     sudo ./input_test
+      #     sudo ./parallel_test
+      #     cd ../../
+
+      # - name: RUN VALGRIND TESTS_PARALLEL LIB
+      #   run: |
+      #     mkdir -p build && cd build
+      #     pwd
+      #     sudo cmake -DBUILD_TESTS=ON -DBUILD_PARALLEL=ON ..
+      #     sudo make
+      #     cd unit_test
+      #     pwd
+      #     sudo valgrind ./input_test
+      #     sudo valgrind ./parallel_test
+      #     cd ../../
+  
+      - name: 
 
       # - uses: codecov/codecov-action@v2
       # - name: CODE COVERAGE
