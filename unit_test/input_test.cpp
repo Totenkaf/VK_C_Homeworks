@@ -1,13 +1,12 @@
 // Copyright 2022 by Artem Ustsov
 
-#include <gtest/gtest.h>
-
 #include <cstring>
 #include <fstream>
+#include <gtest/gtest.h>
 
 extern "C" {
+#include "../lib/lib.h"
 #include "../utils/utilities.h"
-#include "lib.h"
 }
 
 TEST(INPUT_TEST_1, INPUT_STRING) {

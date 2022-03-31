@@ -181,14 +181,14 @@ if(ENABLE_CPPCHECK)
         --language=c
         --check-config
         -DMAIN = main
-        -I  ${CMAKE_SOURCE_DIR}/utils/*.h
-            ${CMAKE_SOURCE_DIR}/utils/*.c
-            ${CMAKE_SOURCE_DIR}/lib/*.h
-            ${CMAKE_SOURCE_DIR}/lib/*.c
-            ${CMAKE_SOURCE_DIR}/unit_test/*.cpp
-            ${CMAKE_SOURCE_DIR}/stress_test/*.c
-            ${CMAKE_SOURCE_DIR}/stress_test/*.h
-            ${CMAKE_SOURCE_DIR}/main.c
+        -I ${CMAKE_SOURCE_DIR}/utils/*.h
+        -I ${CMAKE_SOURCE_DIR}/utils/*.c
+        -I ${CMAKE_SOURCE_DIR}/lib/*.h
+        -I ${CMAKE_SOURCE_DIR}/lib/*.c
+        -I ${CMAKE_SOURCE_DIR}/unit_test/*.cpp
+        -I ${CMAKE_SOURCE_DIR}/stress_test/*.c
+        -I ${CMAKE_SOURCE_DIR}/stress_test/*.h
+        -I ${CMAKE_SOURCE_DIR}/main.c
     )
 
     add_custom_target(
