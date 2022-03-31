@@ -332,7 +332,23 @@ jobs:
       #     sudo valgrind ./parallel_test
       #     cd ../../
   
-      # - name: 
+      - name: STRESS TESTS_STATIC LIB
+        run: |
+          mkdir -p build && cd build
+          sudo cmake -DBUILD_STRESS_TEST=ON -DBUILD_PARALLEL=OFF ..
+          sudo make
+          cd stress_test
+          INPUT_KEY=-i1
+          DATA_FILENAME=data.txt
+          STATISTIC_FILENAME=statistic.txt
+          SEQUENCE_SIZE=100000000
+          R_WINDOW=115
+          sudo valgrind ./stress_test ${INPUT_KEY} ${DATA_FILENAME} ${SEQUENCE_SIZE} ${R_WINDOW}
+          cat ${STATISTIC_FILENAME}
+          rm ${STATISTIC_FILENAME}
+          rm ${DATA_FILENAME}
+          rm result.txt
+          cd ../../
 
       # - uses: codecov/codecov-action@v2
       # - name: CODE COVERAGE

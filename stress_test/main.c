@@ -52,7 +52,6 @@ int main(int argc, char* argv[]) {
       delete_ecg(ecg);
       return _EXIT_FAILURE;
     }
-
     if (!write_sequence_output_file(ecg->signals_data, ecg->size, ecg->R_window,
                                     outfd)) {
       delete_ecg(ecg);
