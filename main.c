@@ -22,6 +22,7 @@ int main(int argc, char* argv[]) {
     printf("Total count of R-extremums: %ld. {R-window = %ld}\n", result,
            ecg->R_window);
   }
+  printf("Active cores: %ld\n", user_cores);
   fclose(stream);
   delete_ecg(ecg);
   return _EXIT_SUCCESS;
