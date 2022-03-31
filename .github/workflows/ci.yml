@@ -139,7 +139,7 @@ jobs:
           sudo make
           FILE_NAME_1="../src/catalog.txt"
           FILE_NAME_2="../src/persons.txt"
-          ./book_catalog -po -i1 ${FILE_NAME_1} ${FILE_NAME_2}
+          ./book_catalog -p0 -i1 ${FILE_NAME_1} ${FILE_NAME_2}
           cd ../
 
       - name: RUN MAIN PROGRAMM_2
