@@ -322,7 +322,7 @@ jobs:
           INPUT_KEY=-i1
           DATA_FILENAME=data.txt
           STATISTIC_FILENAME=statistic.txt
-          SEQUENCE_SIZE=100000
+          SEQUENCE_SIZE=100000000
           R_WINDOW=115
           sudo valgrind ./stress_test ${INPUT_KEY} ${DATA_FILENAME} ${SEQUENCE_SIZE} ${R_WINDOW}
           cat ${STATISTIC_FILENAME}
@@ -341,7 +341,7 @@ jobs:
           CORE_KEY=-j2
           DATA_FILENAME=data.txt
           STATISTIC_FILENAME=statistic.txt
-          SEQUENCE_SIZE=100000
+          SEQUENCE_SIZE=100000000
           R_WINDOW=115
           sudo ./stress_test ${INPUT_KEY} ${CORE_KEY} ${DATA_FILENAME} ${SEQUENCE_SIZE} ${R_WINDOW}
           cat ${STATISTIC_FILENAME}
@@ -360,7 +360,7 @@ jobs:
           CORE_KEY=-j4
           DATA_FILENAME=data.txt
           STATISTIC_FILENAME=statistic.txt
-          SEQUENCE_SIZE=100000
+          SEQUENCE_SIZE=100000000
           R_WINDOW=115
           sudo ./stress_test ${INPUT_KEY} ${CORE_KEY} ${DATA_FILENAME} ${SEQUENCE_SIZE} ${R_WINDOW}
           cat ${STATISTIC_FILENAME}
@@ -379,7 +379,7 @@ jobs:
           CORE_KEY=-j8
           DATA_FILENAME=data.txt
           STATISTIC_FILENAME=statistic.txt
-          SEQUENCE_SIZE=100000
+          SEQUENCE_SIZE=100000000
           R_WINDOW=115
           sudo ./stress_test ${INPUT_KEY} ${CORE_KEY} ${DATA_FILENAME} ${SEQUENCE_SIZE} ${R_WINDOW}
           cat ${STATISTIC_FILENAME}
