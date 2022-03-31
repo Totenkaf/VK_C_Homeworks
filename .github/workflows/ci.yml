@@ -175,7 +175,7 @@ jobs:
 
   testing:
     runs-on: ubuntu-latest
-    needs: [building]
+    # needs: [building]
     steps:
 
       - uses: actions/checkout@v2
