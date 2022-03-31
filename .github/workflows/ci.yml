@@ -286,6 +286,8 @@ jobs:
           sudo make
           cd unit_test
           pwd
+          sudo valgrind ./input_test
+          sudo valgrind ./static_test
           cd ../../
 
       # - uses: codecov/codecov-action@v2

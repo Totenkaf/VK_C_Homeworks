@@ -180,8 +180,8 @@ if(ENABLE_CPPCHECK)
         --error-exitcode=1
         --language=c
         --check-config
-        -DMAIN = main
-        -I ${CMAKE_SOURCE_DIR}/utils/*.h
+        -DMAIN=main
+        -I ${CMAKE_SOURCE_DIR}/lib
            ${CMAKE_SOURCE_DIR}/utils/*.c
            ${CMAKE_SOURCE_DIR}/lib/*.h
            ${CMAKE_SOURCE_DIR}/lib/*.c
