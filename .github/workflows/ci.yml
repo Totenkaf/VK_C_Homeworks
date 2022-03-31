@@ -276,8 +276,6 @@ jobs:
           sudo cmake -DBUILD_TESTS=ON -DBUILD_PARALLEL=OFF ..
           sudo make
           cd unit_test
-          pwd
-          sudo valgrind ./input_test
           sudo valgrind ./static_test
           cd ../../
 
