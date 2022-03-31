@@ -132,7 +132,7 @@ jobs:
           sudo cmake -DBUILD_PARALLEL=ON ..
           sudo make
           INPUT_KEY=-i1
-          CORES_KEY=-j14
+          CORES_KEY=-j4
           DATA_FILENAME="data.txt"
           SEQUENCE_SIZE=1000
           R_WINDOW=15
@@ -159,6 +159,19 @@ jobs:
           sudo make
           INPUT_KEY=-i1
           CORES_KEY=-j10
+          DATA_FILENAME="data.txt"
+          SEQUENCE_SIZE=1000
+          R_WINDOW=15
+          sudo valgrind --tool=memcheck --leak-check=full --leak-resolution=med ./ECG ${INPUT_KEY} ${CORES_KEY} ${DATA_FILENAME} ${SEQUENCE_SIZE} ${R_WINDOW}
+          cd ../
+
+      - name: RUN VALGRIND PROGRAMM_PARALLEL LIB_FILEINPUT_MAX AVAILABLE CORES
+        run: |
+          mkdir -p build && cd build
+          sudo cmake -DBUILD_PARALLEL=ON ..
+          sudo make
+          INPUT_KEY=-i1
+          CORES_KEY=-j100
           DATA_FILENAME="data.txt"
           SEQUENCE_SIZE=1000
           R_WINDOW=15
