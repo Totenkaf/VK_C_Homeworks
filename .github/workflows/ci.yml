@@ -269,14 +269,13 @@ jobs:
           sudo ./static_test
           cd ../../
 
-      - name: RUN VALGRIND TESTS_STATIC LIB
+      - name: RUN VALGRIND PROGRAM_STATIC LIB
         run: |
           mkdir -p build && cd build
           pwd
-          sudo cmake -DBUILD_TESTS=ON -DBUILD_PARALLEL=OFF ..
+          sudo cmake -DBUILD_PARALLEL=OFF ..
           sudo make
-          cd unit_test
-          sudo valgrind ./static_test
+          sudo valgrind ./ECG -i1 data.txt 1000 20
           cd ../../
 
       # - name: PARALLEL_LIB_UNIT_TEST
