@@ -28,6 +28,10 @@ void save_stat(time_stat stat, const size_t result, const char* filename) {
   fprintf(
       file,
       "-----------------------------------------------------------------\n");
+  fprintf(file, "\tNUMBER OF PROCESSES: %zu\n", stat.num_of_cores);
+  fprintf(
+      file,
+      "-----------------------------------------------------------------\n");
   fprintf(file, "\tSEQUENCE SIZE: %zu\n", stat.sequence_size);
   fprintf(
       file,

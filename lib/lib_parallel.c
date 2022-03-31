@@ -66,19 +66,20 @@ static size_t countLocalMax(const size_t* shared_memory,
   return count;
 }
 
-size_t count_R_peaks(const ECG* ecg, const size_t user_cores) {
+size_t count_R_peaks(const ECG* ecg, size_t* user_cores) {
   if (ecg == NULL || ecg->signals_data == NULL || ecg->size == 0 ||
-      user_cores == 0) {
+      *user_cores == 0) {
     return 0;
   }
 
   size_t sys_free_cores = (size_t)sysconf(_SC_NPROCESSORS_ONLN);
   size_t count_processes =
-      user_cores > sys_free_cores
+      *user_cores > sys_free_cores
           ? sys_free_cores
-          : user_cores;  // количество доступных процессоров, возможность
+          : *user_cores;  // количество доступных процессоров, возможность
                          // задания пользователем
   pid_t pids[count_processes];
+  *user_cores = count_processes;
 
   // каждый новый процесс будет интерпретироваться как столбец матрицы
   size_t size_column = ecg->size / 2 + 1;

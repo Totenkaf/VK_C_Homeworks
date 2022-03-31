@@ -17,6 +17,7 @@ typedef struct {
   char* test_type;
   size_t iterations;
   size_t sequence_size;
+  size_t num_of_cores;
   double min;
   double max;
   double avg;

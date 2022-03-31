@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
 
     for (size_t i = 0; i < number_of_iterations; ++i) {
       double time = get_time();
-      result = count_R_peaks(ecg, user_cores);
+      result = count_R_peaks(ecg, &user_cores);
       time = get_time() - time;
 
       if (time < time_min) {
@@ -40,9 +40,11 @@ int main(int argc, char* argv[]) {
 
     time_avg = time_avg / number_of_iterations;
     time_stat stat = {.iterations = number_of_iterations,
+                      .num_of_cores = user_cores,
                       .min = time_min,
                       .max = time_max,
                       .avg = time_avg,
+                      .test_type = "STRESS TEST",
                       .sequence_size = ecg->size};
 
     save_stat(stat, result, "statistic.txt");
