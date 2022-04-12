@@ -19,9 +19,8 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pthread -Wall -Wextra -Wpedantic -Werror")
 # ------------------------------------------------------------------------------
 # 1 | Include subdirectories
 # ------------------------------------------------------------------------------
-
-add_subdirectory(lib)
 add_subdirectory(utils)
+add_subdirectory(lib)
 
 message("UTILS_INCLUDE_DIRS = ${UTILS_INCLUDE_DIRS}")
 message("UTILS_LIBRARIES = ${UTILS_LIBRARIES}")
