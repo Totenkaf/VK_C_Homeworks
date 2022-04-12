@@ -1,9 +1,10 @@
-// Copyright 2021 Artem Ustsov
+// Copyright 2022 Artem Ustsov
+
 #include <stdlib.h>
 #include <string.h>
 
-#include "../lib/lib.h"
-#include "../utils/utilities.h"
+#include "lib.h"
+#include "utilities.h"
 #include "stress_test.h"
 
 int main(int argc, char* argv[]) {

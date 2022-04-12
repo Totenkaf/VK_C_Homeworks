@@ -2,16 +2,16 @@
 
 #include "stress_test.h"
 
-#include "../lib/ECG.h"
+#include "ECG.h"
 
-/* Get the systme time to measure*/
+// Get the systme time to measure
 double get_time() {
   struct timespec time;
   clock_gettime(CLOCK_MONOTONIC, &time);
   return (double)time.tv_sec * MS_IN_SEC + time.tv_nsec / NS_IN_MS;
 }
 
-/*Logging the time stats into stdout*/
+// Logging the time stats into stdout
 void save_stat(time_stat stat, const size_t result, const char* filename) {
   FILE* file = fopen(filename, "a");
   if (!file) {

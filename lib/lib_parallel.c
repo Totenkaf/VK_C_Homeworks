@@ -18,29 +18,29 @@ static void findLocalMax(const int* signals_data, const size_t size,
                         ? size - 1
                         : (size / count_processes) * (process_number + 1);
 
-  // проверка на экстремум в первом элементе
+  // first element extremum check
   if (process_number == 0 && abs(signals_data[0]) > abs(signals_data[1])) {
-    ++(*(shared_memory + 0 * size_column + 0));
+    ++(*(shared_memory + 0 * size_column));
     *(shared_memory + 0 * size_column + 1) = 1;
   }
 
-  // проверка на локальный экстремум
+  // local extremum check
   for (size_t i = part_begin; i < part_end; ++i) {
     if (abs(signals_data[i]) > abs(signals_data[i - 1]) &&
         abs(signals_data[i]) > abs(signals_data[i + 1])) {
-      ++(*(shared_memory + (process_number)*size_column + 0));
+      ++(*(shared_memory + (process_number)*size_column));
       size_t size_local_max =
-          *(shared_memory + (process_number)*size_column + 0);
+          *(shared_memory + (process_number)*size_column);
       *(shared_memory + (process_number)*size_column + size_local_max) = i;
     }
   }
 
-  // проверка на экстремум в последнем элементе
+  // last element extremum check
   if (process_number == count_processes - 1 &&
       abs(signals_data[size - 1]) > abs(signals_data[size - 2])) {
-    ++(*(shared_memory + (count_processes - 1) * size_column + 0));
+    ++(*(shared_memory + (count_processes - 1) * size_column));
     size_t size_local_max =
-        *(shared_memory + (count_processes - 1) * size_column + 0);
+        *(shared_memory + (count_processes - 1) * size_column);
     *(shared_memory + (count_processes - 1) * size_column + size_local_max) =
         size - 1;
   }
@@ -52,10 +52,10 @@ static size_t countLocalMax(const size_t* shared_memory,
                             const size_t count_processes,
                             const size_t R_window) {
   size_t count = 0;
-  size_t last_max = -R_window - 1;  // изначально бесконечность для недостижения
+  size_t last_max = -R_window - 1;  // originally infinity for non-attainment
 
   for (size_t i = 0; i < count_processes; ++i) {
-    size_t size_local_max = *(shared_memory + i * size_column + 0);
+    size_t size_local_max = *(shared_memory + i * size_column);
     for (size_t j = 1; j < size_local_max + 1; ++j) {
       if (*(shared_memory + i * size_column + j) >= (last_max + R_window + 1)) {
         last_max = *(shared_memory + i * size_column + j);
@@ -76,17 +76,17 @@ size_t count_R_peaks(const ECG* ecg, size_t* user_cores) {
   size_t count_processes =
       *user_cores > sys_free_cores
           ? sys_free_cores
-          : *user_cores;  // количество доступных процессоров, возможность
-                         // задания пользователем
+          : *user_cores;  // number of available processors, possibility
+                         // tasks by the user
   pid_t pids[count_processes];
   *user_cores = count_processes;
 
-  // каждый новый процесс будет интерпретироваться как столбец матрицы
+  // each new process will be interpreted as a matrix column
   size_t size_column = ecg->size / 2 + 1;
   size_t* shared_memory =
       (size_t*)mmap(NULL, size_column * count_processes * sizeof(size_t),
                     PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1,
-                    0);  // будем делиться памятью между процессами
+                    0);  // we will share memory between processes
   if (shared_memory == MAP_FAILED) {
     return 0;
   }
@@ -94,7 +94,7 @@ size_t count_R_peaks(const ECG* ecg, size_t* user_cores) {
   for (size_t i = 0; i < count_processes; ++i) {
     pids[i] = fork();
     if (pids[i] == 0) {
-      // каждый процесс будет искать свой локальный экстремум
+      // each process will look for its own local extremum
       findLocalMax(ecg->signals_data, ecg->size, shared_memory, size_column, i,
                    count_processes);
       exit(EXIT_SUCCESS);  // NOLINT
@@ -108,8 +108,8 @@ size_t count_R_peaks(const ECG* ecg, size_t* user_cores) {
     }
   }
 
-  // после завершения дочерних, родительский подсчитает количество локальных
-  // экстремум
+  // after the children complete, the parent will count the number of local
+  // extremum
   size_t count =
       countLocalMax(shared_memory, size_column, count_processes, ecg->R_window);
   if (munmap(shared_memory, size_column * count_processes * sizeof(size_t)) !=

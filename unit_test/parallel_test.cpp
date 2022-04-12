@@ -5,8 +5,8 @@
 #include <gtest/gtest.h>
 
 extern "C" {
-#include "../lib/lib.h"
-#include "../utils/utilities.h"
+#include "lib.h"
+#include "utilities.h"
 }
 
 TEST(PARALLEL_LIB_TEST_1, NULL_SEQUENCE) {

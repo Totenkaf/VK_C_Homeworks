@@ -1,6 +1,7 @@
 // Copyright 2022 by Artem Ustsov
 
 #include <stdlib.h>
+
 #include "lib.h"
 
 // Count R extremums and ECG sequence
@@ -15,7 +16,7 @@ size_t count_R_peaks(const ECG* ecg, size_t* user_cores) {
   size_t i = 1;
 
   if (abs(ecg->signals_data[0]) >
-      abs(ecg->signals_data[1])) {  // проверка на экстремум в первом элементе
+      abs(ecg->signals_data[1])) {  // first element extremum check
     ++count;
     i = ecg->R_window + 1;
   }
@@ -23,8 +24,8 @@ size_t count_R_peaks(const ECG* ecg, size_t* user_cores) {
   while (!end_status && i < ecg->size) {
     if (i == ecg->size - 1 &&
         abs(ecg->signals_data[i]) >
-            abs(ecg->signals_data[i - 1])) {  // проверка на экстремум в
-                                              // последнем элементе
+            abs(ecg->signals_data[i - 1])) {  // last element
+                                              // extremum check
       ++count;
       end_status = true;
     }
@@ -32,7 +33,7 @@ size_t count_R_peaks(const ECG* ecg, size_t* user_cores) {
       if (abs(ecg->signals_data[i]) > abs(ecg->signals_data[i - 1]) &&
           abs(ecg->signals_data[i]) >
               abs(ecg->signals_data[i +
-                                    1])) {  // проверка локального экстремума
+                                    1])) {  // local extremum check
         ++count;
         i += ecg->R_window + 1;
       } else {

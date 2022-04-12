@@ -1,11 +1,12 @@
 // Copyright 2022 by Artem Ustsov
-#include "utilities.h"
 
 #include <getopt.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
+
+#include "utilities.h"
 
 // Gets a chunk of data from stream and returns the correct string
 char *input_string(FILE *stream) {

@@ -5,8 +5,8 @@
 #include <gtest/gtest.h>
 
 extern "C" {
-#include "../lib/lib.h"
-#include "../utils/utilities.h"
+#include "lib.h"
+#include "utilities.h"
 }
 
 TEST(INPUT_TEST_1, INPUT_STRING) {

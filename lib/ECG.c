@@ -1,7 +1,9 @@
 // Copyright 2022 by Artem Ustsov
-#include "ECG.h"
+
 #include <stdlib.h>
-#include "../utils/utilities.h"
+
+#include "ECG.h"
+#include "utilities.h"
 
 // Allocates memory in heap to ECG sequence
 bool create_ECG(ECG** ecg_p, FILE* stream) {
