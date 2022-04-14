@@ -63,5 +63,6 @@ int main(int argc, char* argv[]) {
     fclose(outfd);
   }
   delete_ecg(ecg);
+  fclose(stream);
   return _EXIT_SUCCESS;
 }
