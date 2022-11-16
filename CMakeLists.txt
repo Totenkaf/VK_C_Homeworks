@@ -42,10 +42,10 @@ if(BUILD_PARALLEL)
 else()
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_STATIC_LIBRARIES} ${UTILS_LIBRARIES})
     message("LIB_INCLUDE_DIRS = ${LIB_INCLUDE_DIRS}")
-    message("LIB_STATIC_LIBRARIES = ${LIB_STATIC_LIBRARIES}")
+    message("LIB_STATIC_LIBRARY = ${LIB_STATIC_LIBRARIES}")
 endif()
 
-
+    
 # ==============================================================================
 # III | Check settings
 # ==============================================================================
@@ -222,7 +222,6 @@ if(ENABLE_TSAN)
 endif()
 
 
-
 # ------------------------------------------------------------------------------
 # 8 | Scan-build
 # ------------------------------------------------------------------------------
@@ -244,9 +243,7 @@ if(ENABLE_SCAN_BUILD)
     --output scan_answer.txt
     ${ALL_CXX_SOURCE_FILES}
   )
-
 endif()
-
 
 # ==============================================================================
 # IV | Tests
